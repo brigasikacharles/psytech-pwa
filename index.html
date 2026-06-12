@@ -7,1177 +7,1342 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PSYTECH">
-<meta name="theme-color" content="#0ea5e9">
-<meta name="description" content="Entraînement aux tests psychotechniques Armée de l'Air française — Sous-officier & Pilote">
+<meta name="theme-color" content="#0d1b35">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-<title>PSYTECH — Armée de l'Air</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>PSYTECH — Armée de l'Air du Bénin</title>
 <style>
 :root {
-  --bg:#080b12; --surface:#0f1623; --panel:#141e2e; --border:#1a2f4a;
-  --accent:#0ea5e9; --accent2:#38bdf8;
-  --gold:#f59e0b; --green:#22c55e; --red:#ef4444; --orange:#f97316; --purple:#a855f7; --cyan:#06b6d4;
-  --text:#e2e8f0; --muted:#64748b; --dim:#1e3354;
-  --hud:'Share Tech Mono',monospace;
-  --sans:'Barlow Condensed',sans-serif;
-  --body:'Barlow',sans-serif;
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bot: env(safe-area-inset-bottom, 0px);
+  --navy:    #0d1b35;
+  --navy2:   #122040;
+  --navy3:   #1a2d52;
+  --gold:    #c8952a;
+  --gold2:   #e8b84b;
+  --white:   #ffffff;
+  --bg:      #f4f6f9;
+  --border:  #e2e6ed;
+  --text:    #1a2235;
+  --muted:   #6b7a99;
+  --muted2:  #9aa3b8;
+  --sidebar-w: 160px;
+  --header-h:  64px;
+  --c-blue:   #2563eb;
+  --c-amber:  #d97706;
+  --c-green:  #16a34a;
+  --c-red:    #dc2626;
+  --c-purple: #7c3aed;
+  --c-teal:   #0891b2;
+  --safe-top: env(safe-area-inset-top,0px);
+  --safe-bot: env(safe-area-inset-bottom,0px);
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{height:100%}
-body{
-  background:var(--bg);color:var(--text);font-family:var(--body);
-  min-height:100vh;overflow-x:hidden;
-  padding-top:var(--safe-top);
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+html { height:100%; }
+body {
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+  display:flex;
+  overflow-x:hidden;
 }
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);
-}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--dim);border-radius:2px}
 
-/* ── INSTALL BANNER ── */
-#install-banner{
-  display:none;position:fixed;bottom:calc(12px + var(--safe-bot));left:12px;right:12px;
-  background:var(--surface);border:1px solid var(--accent);
-  padding:14px 16px;z-index:500;
-  display:none;align-items:center;gap:12px;
-  box-shadow:0 8px 32px rgba(0,0,0,.6);
+/* ── SIDEBAR ── */
+.sidebar {
+  width:var(--sidebar-w);
+  background:var(--navy);
+  display:flex;
+  flex-direction:column;
+  position:fixed;
+  top:0; bottom:0; left:0;
+  z-index:100;
+  overflow:hidden;
 }
-#install-banner.show{display:flex}
+.sb-logo {
+  padding:22px 16px 18px;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.sb-flag-wrap {
+  display:flex; align-items:center; justify-content:center;
+  padding:5px;
+  border:2px solid var(--gold);
+  border-radius:6px;
+  box-shadow:0 0 0 3px rgba(200,149,42,.15);
+}
+.sb-title {
+  font-size:11px; font-weight:700; letter-spacing:.08em;
+  color:var(--white); text-transform:uppercase; text-align:center; line-height:1.3;
+}
+.sb-sub {
+  font-size:9px; color:rgba(255,255,255,.4); letter-spacing:.06em; text-align:center;
+}
+
+/* Nav items */
+.sb-nav { flex:1; padding:12px 0; overflow-y:auto; }
+.nav-item {
+  display:flex; align-items:center; gap:10px;
+  padding:11px 18px; cursor:pointer;
+  font-size:13px; font-weight:500; color:rgba(255,255,255,.55);
+  transition:all .18s; border-left:3px solid transparent;
+  -webkit-user-select:none; user-select:none;
+}
+.nav-item:hover { color:rgba(255,255,255,.85); background:rgba(255,255,255,.04); }
+.nav-item.active {
+  color:var(--white); background:rgba(255,255,255,.07);
+  border-left-color:var(--gold);
+}
+.nav-item .ni { font-size:16px; flex-shrink:0; opacity:.7; }
+.nav-item.active .ni { opacity:1; }
+
+/* Flag strip + motto */
+.sb-bottom {
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.sb-flag {
+  height:5px; display:flex;
+}
+.sb-flag div { flex:1; }
+.flag-g { background:#008751; }
+.flag-y { background:#FCD116; }
+.flag-r { background:#E8112D; }
+.sb-motto {
+  padding:12px 16px 16px;
+  font-size:9.5px; font-weight:500; letter-spacing:.06em;
+  color:rgba(255,255,255,.4); font-style:italic;
+  text-align:center; line-height:1.6;
+}
+
+/* ── MAIN AREA ── */
+.main-area {
+  margin-left:var(--sidebar-w);
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
 
 /* ── HEADER ── */
-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 16px;height:56px;
-  background:var(--surface);border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:100;gap:10px;
+.topbar {
+  height:var(--header-h);
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 28px; gap:16px;
+  position:sticky; top:0; z-index:90;
 }
-.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.rhombus{
-  width:30px;height:30px;border:2px solid var(--accent);
-  transform:rotate(45deg);display:flex;align-items:center;justify-content:center;flex-shrink:0;
+.topbar-left h1 {
+  font-size:16px; font-weight:700; color:var(--text); letter-spacing:.02em;
 }
-.rhombus span{transform:rotate(-45deg);font-weight:900;font-size:11px;color:var(--accent);letter-spacing:1px}
-.logo-text h1{font-family:var(--sans);font-size:17px;font-weight:900;letter-spacing:3px;color:#fff;line-height:1}
-.logo-text p{font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:1px}
-.header-right{display:flex;align-items:center;gap:8px;flex-wrap:nowrap}
-
-/* Difficulty toggle */
-.diff-toggle{display:flex;gap:4px}
-.diff-btn{
-  font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:1.5px;
-  padding:5px 10px;cursor:pointer;transition:all .15s;
-  border:1px solid var(--dim);color:var(--muted);background:transparent;text-transform:uppercase;
-  -webkit-user-select:none;user-select:none;
+.topbar-left p {
+  font-size:11px; color:var(--muted); font-weight:400; margin-top:1px;
 }
-.diff-btn.on-easy{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.12)}
-.diff-btn.on-hard{border-color:var(--red);color:var(--red);background:rgba(239,68,68,.12)}
-
-/* HUD */
-.hud{font-family:var(--hud);font-size:11px;color:var(--accent2);display:flex;gap:12px;align-items:center}
-.hud-block{text-align:center}
-.hud-val{font-size:14px;font-weight:700;line-height:1.1}
-.hud-lbl{font-size:9px;color:var(--muted);letter-spacing:1px}
+.topbar-right { display:flex; align-items:center; gap:10px; }
+.diff-pill {
+  font-size:11px; font-weight:700; letter-spacing:.08em;
+  padding:7px 18px; cursor:pointer; transition:all .18s;
+  border:2px solid transparent; text-transform:uppercase;
+  border-radius:6px; -webkit-user-select:none; user-select:none;
+}
+.diff-pill.soff  { background:var(--navy); color:var(--white); }
+.diff-pill.pilot { background:var(--navy); color:var(--white); }
+.diff-pill.off   { background:transparent; color:var(--muted); border-color:var(--border); }
+.diff-pill.off:hover { border-color:var(--navy); color:var(--navy); }
+.score-box {
+  background:var(--bg); border:1.5px solid var(--border); border-radius:6px;
+  padding:6px 16px; font-size:14px; font-weight:700; color:var(--text);
+  font-family:'Inter',sans-serif; min-width:52px; text-align:center;
+  display:none;
+}
+.score-box.show { display:block; }
+.topbar-actions { display:flex; gap:6px; }
+.icon-btn {
+  width:36px; height:36px; border-radius:50%;
+  border:1.5px solid var(--border); background:transparent;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:15px; color:var(--muted);
+  transition:all .18s;
+}
+.icon-btn:hover { border-color:var(--navy); color:var(--navy); background:var(--bg); }
 
 /* ── SCREENS ── */
-.screen{display:none;padding:16px;max-width:720px;margin:0 auto;padding-bottom:calc(24px + var(--safe-bot))}
-.screen.active{display:block}
+.screen { display:none; }
+.screen.active { display:block; animation:fadein .22s ease; }
+@keyframes fadein { from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)} }
 
-/* ── HOME ── */
-.banner{
-  background:linear-gradient(135deg,var(--surface) 0%,#0c2040 50%,var(--surface) 100%);
-  border:1px solid var(--accent);padding:20px;margin-bottom:20px;
-  position:relative;overflow:hidden;
+/* ── HOME CONTENT ── */
+.content { padding:28px; }
+
+/* Mode tabs */
+.mode-tabs {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:0; margin-bottom:28px;
+  border:1.5px solid var(--border); border-radius:10px; overflow:hidden;
 }
-.banner::after{
-  content:'AdlA';position:absolute;right:-8px;top:50%;transform:translateY(-50%);
-  font-family:var(--sans);font-size:72px;font-weight:900;
-  color:rgba(14,165,233,.04);pointer-events:none;
+.mode-tab {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px; padding:20px 16px; cursor:pointer; background:var(--white);
+  transition:all .2s; -webkit-user-select:none; user-select:none;
+  border-right:1.5px solid var(--border);
 }
-.banner h2{font-family:var(--sans);font-size:20px;font-weight:900;letter-spacing:3px;color:#fff;text-transform:uppercase}
-.banner p{color:var(--muted);font-size:12px;margin-top:4px}
-.banner-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.mode-tab:last-child { border-right:none; }
+.mode-tab.active { background:var(--navy); }
+.mode-tab .mt-icon { font-size:26px; line-height:1; }
+.mode-tab .mt-label {
+  font-size:13px; font-weight:500; color:var(--muted); transition:color .2s;
+}
+.mode-tab.active .mt-label { color:var(--white); font-weight:600; }
+
+/* AI config */
+.ai-config {
+  background:var(--white); border:1.5px solid var(--border); border-radius:10px;
+  padding:18px 20px; margin-bottom:24px; display:none;
+}
+.ai-config label {
+  font-size:11px; font-weight:600; letter-spacing:.06em;
+  color:var(--muted); text-transform:uppercase; display:block; margin-bottom:8px;
+}
+.ai-config input {
+  width:100%; border:1.5px solid var(--border); border-radius:6px;
+  padding:9px 12px; font-size:13px; font-family:'Inter',sans-serif;
+  color:var(--text); outline:none; background:var(--bg); transition:border .2s;
+}
+.ai-config input:focus { border-color:var(--navy); background:var(--white); }
+.ai-config p { font-size:11px; color:var(--muted); margin-top:6px; line-height:1.5; }
+.ai-status { display:flex; align-items:center; gap:7px; margin-top:10px; }
+.ai-led { width:8px; height:8px; border-radius:50%; background:var(--muted2); flex-shrink:0; }
+.ai-led.ok { background:#16a34a; }
+.ai-led.warn { background:#d97706; }
+.ai-status span { font-size:11px; color:var(--muted); }
+
+/* Section head */
+.sec-head {
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;
+}
+.sec-title {
+  font-size:12px; font-weight:700; letter-spacing:.1em; color:var(--text);
+  text-transform:uppercase; display:flex; align-items:center; gap:8px;
+}
+.sec-title::before { content:''; width:3px; height:14px; background:var(--gold); border-radius:2px; }
+.sec-action {
+  display:flex; align-items:center; gap:5px;
+  font-size:11px; font-weight:600; letter-spacing:.06em;
+  color:var(--muted); cursor:pointer; padding:5px 12px;
+  border:1.5px solid var(--border); border-radius:6px;
+  transition:all .18s; background:var(--white);
+}
+.sec-action:hover { border-color:var(--navy); color:var(--navy); }
 
 /* Category cards */
-.cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-@media(min-width:520px){.cat-grid{grid-template-columns:repeat(3,1fr)}}
-.cat-card{
-  background:var(--surface);border:1px solid var(--border);
-  padding:16px;cursor:pointer;transition:all .2s;
-  position:relative;overflow:hidden;
-  -webkit-user-select:none;user-select:none;
+.cat-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
 }
-.cat-card:active{transform:scale(.97)}
-.cat-card-top{height:2px;width:100%;position:absolute;top:0;left:0;transform:scaleX(0);transform-origin:left;transition:transform .2s}
-.cat-card:hover .cat-card-top,.cat-card:active .cat-card-top{transform:scaleX(1)}
-.cat-icon{font-size:22px;margin-bottom:8px}
-.cat-name{font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:2px;color:#fff;text-transform:uppercase;margin-bottom:2px}
-.cat-desc{font-size:11px;color:var(--muted);margin-bottom:12px;line-height:1.4}
-.cat-footer{display:flex;align-items:center;justify-content:space-between}
-.pill{
-  display:inline-block;padding:2px 8px;
-  border:1px solid currentColor;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+.cat-card {
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  padding:22px 18px;
+  cursor:pointer;
+  transition:all .22s;
+  -webkit-user-select:none; user-select:none;
+  position:relative; overflow:hidden;
 }
-.cat-score{font-family:var(--hud);font-size:12px;font-weight:700}
-.mini-bar{height:2px;margin-top:10px;background:var(--dim)}
-.mini-bar-fill{height:100%;transition:width .4s ease}
+.cat-card:hover {
+  border-color:var(--navy3);
+  box-shadow:0 4px 20px rgba(13,27,53,.1);
+  transform:translateY(-2px);
+}
+.cat-card:active { transform:scale(.98); }
+.cat-icon-wrap {
+  width:52px; height:52px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; margin-bottom:14px;
+}
+.cat-name {
+  font-size:14px; font-weight:700; letter-spacing:.05em;
+  color:var(--text); text-transform:uppercase; margin-bottom:5px;
+}
+.cat-desc { font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:16px; }
+.cat-footer {
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:12px; border-top:1px solid var(--border);
+}
+.cat-q-count {
+  font-size:12px; font-weight:700; color:var(--text);
+}
+.cat-q-count span { font-size:10px; font-weight:500; color:var(--muted); letter-spacing:.06em; margin-left:4px; }
+.cat-arrow {
+  width:26px; height:26px; border-radius:50%;
+  border:1.5px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; color:var(--muted); transition:all .18s;
+}
+.cat-card:hover .cat-arrow { border-color:var(--navy); color:var(--navy); background:var(--bg); }
+.cat-score-bar { height:3px; background:var(--border); border-radius:2px; margin-bottom:12px; }
+.cat-score-fill { height:100%; border-radius:2px; transition:width .4s ease; }
+.cat-score-lbl { font-size:10px; font-weight:600; margin-bottom:4px; }
 
-/* Progress section */
-.section-head{
-  font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:3px;color:var(--muted);
-  text-transform:uppercase;margin:20px 0 10px;padding-bottom:8px;
-  border-bottom:1px solid var(--border);display:flex;justify-content:space-between;
+/* Session stats row */
+.stats-row {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:12px; margin-bottom:28px; display:none;
 }
+.stats-row.show { display:grid; }
+.stat-card {
+  background:var(--white); border:1.5px solid var(--border); border-radius:10px;
+  padding:16px; text-align:center;
+}
+.stat-val { font-size:22px; font-weight:700; display:block; margin-bottom:2px; }
+.stat-lbl { font-size:10px; color:var(--muted); font-weight:500; letter-spacing:.06em; text-transform:uppercase; }
 
-/* History list */
-.hist-item{
-  display:flex;gap:12px;align-items:flex-start;
-  padding:10px 0;border-bottom:1px solid var(--border);
-  animation:fadeUp .2s ease;
+/* History */
+.hist-item {
+  display:flex; gap:12px; align-items:flex-start;
+  padding:12px 0; border-bottom:1px solid var(--border);
 }
-.hist-icon{font-size:14px;flex-shrink:0;margin-top:1px}
-.hist-text{font-size:12px;color:var(--muted);line-height:1.5;flex:1}
-.hist-text strong{color:var(--text);font-size:13px;display:block;margin-bottom:2px}
-.hist-wrong{color:var(--red);font-size:11px;margin-top:2px}
+.hist-ico { font-size:14px; flex-shrink:0; margin-top:1px; }
+.hist-body { flex:1; }
+.hist-q { font-size:13px; color:var(--text); margin-bottom:3px; font-weight:400; }
+.hist-ans { font-size:11px; color:var(--muted); }
+.hist-ans.ko { color:#dc2626; }
 
 /* ── QUIZ ── */
-.quiz-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border);
-  gap:8px;
-}
-.quiz-meta{}
-.quiz-cat{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:3px;color:var(--accent);text-transform:uppercase}
-.quiz-title{font-family:var(--sans);font-size:18px;font-weight:700;color:#fff;line-height:1.2}
+.quiz-content { padding:28px; max-width:760px; }
 
-/* Progress strip */
-.prog-strip{margin-bottom:16px}
-.prog-labels{display:flex;justify-content:space-between;font-family:var(--hud);font-size:10px;color:var(--muted);margin-bottom:4px}
-.prog-track{height:3px;background:var(--dim)}
-.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s ease}
-
-/* Question card */
-.q-card{
-  background:var(--surface);border:1px solid var(--border);
-  padding:20px;margin-bottom:14px;
-  animation:fadeUp .25s ease;
+.quiz-topbar {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--border); gap:12px;
 }
-.q-badge{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-.diff-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.badge-text{font-family:var(--sans);font-size:9px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
-.q-text{font-size:15px;font-weight:500;line-height:1.65;color:var(--text);margin-bottom:18px}
-.q-visual{
-  background:var(--panel);border:1px solid var(--border);
-  padding:14px 16px;margin-bottom:18px;
-  font-family:var(--hud);font-size:14px;color:var(--accent2);
-  line-height:2;text-align:center;white-space:pre-wrap;word-break:break-word;
+.quiz-info {}
+.quiz-cat-tag {
+  font-size:11px; font-weight:700; letter-spacing:.1em;
+  color:var(--muted); text-transform:uppercase; margin-bottom:4px;
 }
-.q-visual.hidden{display:none}
-
-/* Options */
-.option{
-  display:flex;align-items:flex-start;gap:12px;
-  padding:12px 14px;margin-bottom:9px;
-  border:1px solid var(--border);background:var(--panel);
-  cursor:pointer;transition:all .15s;
-  font-size:13px;color:var(--text);
-  -webkit-user-select:none;user-select:none;
-}
-.option:active:not(.disabled){transform:scale(.99)}
-.option.hover:not(.disabled){border-color:var(--accent);background:rgba(14,165,233,.07)}
-.option.selected{border-color:var(--accent);background:rgba(14,165,233,.1)}
-.option.correct{border-color:var(--green);background:rgba(34,197,94,.1);color:#4ade80}
-.option.wrong{border-color:var(--red);background:rgba(239,68,68,.1);color:#f87171}
-.option.disabled{cursor:default;pointer-events:none}
-.opt-key{
-  min-width:24px;height:24px;border:1px solid var(--muted);color:var(--muted);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--sans);font-size:11px;font-weight:800;flex-shrink:0;
-  transition:all .15s;
-}
-.option.selected .opt-key{border-color:var(--accent);color:var(--accent)}
-.option.correct .opt-key{border-color:var(--green);color:var(--green)}
-.option.wrong .opt-key{border-color:var(--red);color:var(--red)}
-.opt-text{flex:1;line-height:1.5}
-
-/* Feedback */
-.feedback{
-  padding:12px 16px;margin-top:14px;
-  border-left:3px solid var(--green);background:rgba(34,197,94,.05);
-  font-size:13px;line-height:1.65;display:none;
-  animation:fadeUp .2s ease;
-}
-.feedback.wrong{border-left-color:var(--red);background:rgba(239,68,68,.05)}
-.feedback-title{font-family:var(--sans);font-weight:700;letter-spacing:1px;font-size:11px;text-transform:uppercase;margin-bottom:5px;color:var(--green)}
-.feedback.wrong .feedback-title{color:var(--red)}
-.feedback-body{color:var(--muted)}
-.feedback-correct{color:var(--text);font-weight:600}
+.quiz-mod-title { font-size:20px; font-weight:700; color:var(--text); }
+.quiz-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
 
 /* Timer ring */
-.timer-wrap{position:relative;width:52px;height:52px;flex-shrink:0}
-.timer-wrap svg{position:absolute;top:0;left:0;transform:rotate(-90deg)}
-.timer-num{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-family:var(--hud);font-size:14px;font-weight:700;color:var(--accent);
+.timer-ring { position:relative; width:54px; height:54px; flex-shrink:0; }
+.timer-ring svg { position:absolute; inset:0; transform:rotate(-90deg); }
+.timer-num {
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px; font-weight:700; color:var(--navy);
+  transition:color .3s;
 }
+
+/* Progress */
+.prog-row { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
+.prog-track { flex:1; height:4px; background:var(--border); border-radius:2px; }
+.prog-fill { height:100%; background:var(--navy); border-radius:2px; transition:width .3s ease; }
+.prog-lbl { font-size:11px; color:var(--muted); white-space:nowrap; font-weight:500; }
+
+/* Question card */
+.q-card {
+  background:var(--white); border:1.5px solid var(--border); border-radius:12px;
+  padding:24px; margin-bottom:16px; animation:fadein .22s ease;
+}
+.q-badges { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.q-badge {
+  font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase;
+  padding:4px 10px; border-radius:20px;
+}
+.q-badge-diff-easy { background:#dcfce7; color:#15803d; }
+.q-badge-diff-hard { background:#fef3c7; color:#92400e; }
+.q-badge-cat       { background:#eff6ff; color:#1d4ed8; }
+.q-badge-ai        { background:#f3e8ff; color:#7e22ce; display:flex; align-items:center; gap:5px; }
+.ai-dot-anim       { width:5px; height:5px; border-radius:50%; background:#7c3aed; animation:pulse 1.2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+
+.q-text { font-size:16px; line-height:1.7; color:var(--text); margin-bottom:20px; font-weight:400; }
+.q-visual {
+  background:var(--bg); border:1.5px solid var(--border); border-radius:8px;
+  padding:14px 18px; margin-bottom:20px;
+  font-size:15px; font-family:'Inter',monospace; color:var(--navy);
+  line-height:2.2; text-align:center; white-space:pre-wrap; font-weight:600;
+}
+.q-visual.hidden { display:none; }
+
+/* Options */
+.options { display:flex; flex-direction:column; gap:10px; }
+.opt {
+  display:flex; align-items:flex-start; gap:14px;
+  padding:14px 16px; border-radius:8px;
+  border:1.5px solid var(--border); background:var(--white);
+  cursor:pointer; transition:all .15s;
+  font-size:14px; color:var(--text);
+  -webkit-user-select:none; user-select:none;
+}
+.opt:hover:not(.disabled) { border-color:var(--navy3); background:var(--bg); }
+.opt.sel  { border-color:var(--navy); background:#f0f4ff; }
+.opt.correct { border-color:#16a34a; background:#f0fdf4; color:#15803d; }
+.opt.wrong   { border-color:#dc2626; background:#fef2f2; color:#b91c1c; }
+.opt.disabled { cursor:default; pointer-events:none; }
+.opt-key {
+  width:28px; height:28px; flex-shrink:0; border-radius:6px;
+  border:1.5px solid var(--border); background:var(--bg);
+  display:flex; align-items:center; justify-content:center;
+  font-size:11px; font-weight:700; color:var(--muted); transition:all .15s;
+}
+.opt:hover:not(.disabled) .opt-key { border-color:var(--navy); color:var(--navy); background:var(--white); }
+.opt.sel   .opt-key { border-color:var(--navy); color:var(--navy); background:#e0e9ff; }
+.opt.correct .opt-key { border-color:#16a34a; color:#15803d; background:#dcfce7; }
+.opt.wrong   .opt-key { border-color:#dc2626; color:#b91c1c; background:#fee2e2; }
+.opt-txt { flex:1; line-height:1.5; }
+
+/* Feedback */
+.feedback {
+  display:none; margin-top:16px; padding:16px 18px; border-radius:8px;
+  border-left:4px solid #16a34a; background:#f0fdf4; animation:fadein .2s ease;
+}
+.feedback.wrong   { border-left-color:#dc2626; background:#fef2f2; }
+.feedback.timeout { border-left-color:#d97706; background:#fffbeb; }
+.fb-title {
+  font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:#15803d; margin-bottom:6px;
+}
+.feedback.wrong   .fb-title { color:#b91c1c; }
+.feedback.timeout .fb-title { color:#92400e; }
+.fb-body { font-size:13px; color:var(--muted); line-height:1.65; }
+.fb-correct { color:var(--text); font-weight:600; }
 
 /* Quiz nav */
-.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:8px;flex-wrap:wrap}
-.q-counter{font-family:var(--hud);font-size:11px;color:var(--muted)}
-.q-counter strong{color:var(--accent2)}
-
-/* ── AI MODE ── */
-.ai-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:3px 9px;border:1px solid rgba(168,85,247,.4);
-  color:var(--purple);font-family:var(--sans);font-size:9px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
+.quiz-nav { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.q-count { font-size:12px; color:var(--muted); font-weight:500; display:flex; align-items:center; gap:8px; }
+.q-count strong { color:var(--text); }
+.streak-chip {
+  display:inline-flex; align-items:center; gap:4px;
+  font-size:11px; font-weight:600;
+  background:#fffbeb; border:1.5px solid #fde68a; color:#92400e;
+  padding:4px 10px; border-radius:20px;
 }
-.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--purple);animation:pulse 1.2s infinite}
+
+/* Buttons */
+.btn {
+  font-size:12px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+  padding:10px 22px; cursor:pointer; transition:all .18s; border:none; border-radius:8px;
+  -webkit-user-select:none; user-select:none; font-family:'Inter',sans-serif;
+}
+.btn:active { transform:scale(.97); }
+.btn-navy { background:var(--navy); color:var(--white); }
+.btn-navy:hover { background:var(--navy2); }
+.btn-outline { background:transparent; color:var(--navy); border:1.5px solid var(--border); }
+.btn-outline:hover { border-color:var(--navy); background:var(--bg); }
+.btn-sm { padding:8px 16px; font-size:11px; }
+.btn-muted { background:var(--bg); color:var(--muted); border:1.5px solid var(--border); }
 
 /* Skeleton */
-.skel{
-  background:linear-gradient(90deg,var(--panel) 25%,var(--dim) 50%,var(--panel) 75%);
-  background-size:200% 100%;animation:shimmer 1.4s infinite;
-  border-radius:2px;
-}
-.skel-block{height:18px;margin-bottom:10px}
-.skel-opt{height:44px;margin-bottom:9px;width:100%}
-.skel-loading{text-align:center;color:var(--muted);font-size:12px;margin-top:12px;padding:8px}
-
-/* Offline notice */
-.offline-strip{
-  background:rgba(245,158,11,.1);border-bottom:1px solid rgba(245,158,11,.3);
-  padding:6px 16px;font-size:11px;color:var(--gold);
-  display:none;text-align:center;letter-spacing:1px;
-}
-.offline-strip.show{display:block}
+.skeleton { background:var(--white); border:1.5px solid var(--border); border-radius:12px; padding:24px; }
+.skel-line { height:14px; border-radius:4px; margin-bottom:10px; background:linear-gradient(90deg,var(--border) 25%,var(--bg) 50%,var(--border) 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; }
+.skel-opt  { height:52px; border-radius:8px; margin-bottom:10px; background:linear-gradient(90deg,var(--border) 25%,var(--bg) 50%,var(--border) 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; }
+@keyframes shimmer { to{background-position:-200% 0} }
+.skel-msg { text-align:center; font-size:12px; color:#7c3aed; margin-top:12px; }
 
 /* ── RESULTS ── */
-.results-hero{
-  text-align:center;padding:32px 20px;
-  background:var(--surface);border:1px solid var(--border);margin-bottom:16px;
+.results-content { padding:28px; max-width:760px; }
+.res-hero {
+  background:var(--white); border:1.5px solid var(--border); border-radius:12px;
+  padding:36px; text-align:center; margin-bottom:20px;
 }
-.res-grade{
-  font-family:var(--sans);font-size:80px;font-weight:900;line-height:1;
-  letter-spacing:-3px;
-}
-.res-grade.A{color:var(--green)}.res-grade.B{color:var(--accent)}.res-grade.C{color:var(--gold)}
-.res-grade.D{color:var(--orange)}.res-grade.F{color:var(--red)}
-.res-score{font-family:var(--hud);font-size:20px;color:var(--text);margin:6px 0}
-.res-verdict{font-size:13px;color:var(--muted);max-width:420px;margin:8px auto 0;line-height:1.6}
-.res-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
-@media(min-width:420px){.res-stats{grid-template-columns:repeat(4,1fr)}}
-.res-stat{background:var(--surface);border:1px solid var(--border);padding:16px;text-align:center}
-.res-stat-num{font-family:var(--sans);font-size:30px;font-weight:900;line-height:1;display:block;margin-bottom:4px}
-.res-stat-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.review-list{list-style:none}
-.review-item{display:flex;gap:10px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--border)}
-.review-icon{font-size:13px;flex-shrink:0;margin-top:1px}
-.review-body{flex:1}
-.review-q{font-size:12px;color:var(--text);margin-bottom:3px;line-height:1.5}
-.review-ans{font-family:var(--hud);font-size:11px;color:var(--muted)}
-.review-ans.ok{color:var(--green)}.review-ans.ko{color:var(--red)}
-.review-exp{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.5}
+.res-eyebrow { font-size:10px; font-weight:600; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; margin-bottom:8px; }
+.res-grade { font-size:88px; font-weight:700; line-height:1; display:block; margin-bottom:6px; }
+.A{color:#16a34a}.B{color:#2563eb}.C{color:#d97706}.D{color:#ea580c}.F{color:#dc2626}
+.res-score { font-size:20px; font-weight:700; color:var(--text); margin-bottom:8px; }
+.res-verdict { font-size:14px; color:var(--muted); max-width:420px; margin:0 auto; line-height:1.65; }
+.res-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+.rs { background:var(--white); border:1.5px solid var(--border); border-radius:10px; padding:18px; text-align:center; }
+.rs-num { font-size:28px; font-weight:700; line-height:1; display:block; margin-bottom:4px; }
+.rs-lbl { font-size:10px; color:var(--muted); font-weight:500; text-transform:uppercase; letter-spacing:.06em; }
+.review-item { display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
+.rev-ico { font-size:14px; flex-shrink:0; margin-top:2px; }
+.rev-body { flex:1; }
+.rev-q { font-size:13px; color:var(--text); margin-bottom:4px; }
+.rev-ans { font-size:11px; font-weight:600; }
+.rev-ans.ok { color:#15803d; } .rev-ans.ko { color:#b91c1c; }
+.rev-exp { font-size:11px; color:var(--muted); margin-top:3px; line-height:1.5; }
+.res-actions { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; padding-bottom:32px; }
 
-/* ── BUTTONS ── */
-.btn{
-  font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:2px;
-  padding:9px 18px;cursor:pointer;transition:all .15s;border:none;
-  text-transform:uppercase;-webkit-user-select:none;user-select:none;
-  -webkit-tap-highlight-color:transparent;
-}
-.btn:active{transform:scale(.97)}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:var(--accent2)}
-.btn-outline{background:transparent;color:var(--accent);border:1px solid var(--accent)}
-.btn-outline:hover{background:var(--accent);color:#fff}
-.btn-sm{padding:6px 12px;font-size:10px}
-.btn-muted{background:transparent;color:var(--muted);border:1px solid var(--border)}
+/* Flash */
+@keyframes flash-ok{0%,100%{background:var(--white)}50%{background:#f0fdf4}}
+@keyframes flash-ko{0%,100%{background:var(--white)}50%{background:#fef2f2}}
+.flash-ok{animation:flash-ok .35s ease}
+.flash-ko{animation:flash-ko .35s ease}
 
-/* ── AI INPUT ── */
-.ai-key-wrap{
-  background:var(--surface);border:1px solid var(--border);
-  padding:16px;margin-bottom:16px;
+/* Offline */
+.offline-strip {
+  display:none; position:fixed; top:0; left:0; right:0; z-index:9999;
+  background:#fffbeb; border-bottom:1px solid #fde68a;
+  padding:6px 16px; font-size:11px; color:#92400e; text-align:center;
+  font-weight:500;
 }
-.ai-key-wrap label{font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:8px}
-.ai-key-wrap input{
-  width:100%;background:var(--panel);border:1px solid var(--border);
-  color:var(--text);font-family:var(--hud);font-size:13px;
-  padding:9px 12px;outline:none;
-}
-.ai-key-wrap input:focus{border-color:var(--accent)}
-.ai-key-wrap p{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5}
+.offline-strip.show { display:block; }
 
-/* ── MISC ── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes shimmer{to{background-position:-200% 0}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@keyframes flash-g{0%,100%{background:var(--surface)}50%{background:rgba(34,197,94,.14)}}
-@keyframes flash-r{0%,100%{background:var(--surface)}50%{background:rgba(239,68,68,.14)}}
-.flash-g{animation:flash-g .4s ease}
-.flash-r{animation:flash-r .4s ease}
+/* Install banner */
+#install-banner {
+  display:none; position:fixed;
+  bottom:calc(12px + var(--safe-bot)); right:20px; z-index:400;
+  background:var(--white); border:1.5px solid var(--border); border-radius:12px;
+  padding:16px 18px; max-width:320px; width:calc(100% - 40px);
+  box-shadow:0 8px 32px rgba(13,27,53,.15);
+  align-items:center; gap:12px;
+}
+#install-banner.show { display:flex; }
+.ib-txt strong { display:block; font-size:13px; color:var(--text); margin-bottom:2px; }
+.ib-txt span   { font-size:11px; color:var(--muted); }
 
-.mode-tab{display:flex;gap:6px;margin-bottom:16px}
-.tab{
-  flex:1;padding:9px;text-align:center;cursor:pointer;
-  font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  border:1px solid var(--border);color:var(--muted);background:var(--surface);
-  transition:all .15s;
+/* Footer bar */
+.footer-bar {
+  background:var(--white); border-top:1px solid var(--border);
+  padding:12px 28px; display:flex; align-items:center; justify-content:space-between;
+  font-size:11px;
 }
-.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.ai-status{
-  display:flex;align-items:center;gap:6px;
-  font-size:11px;color:var(--muted);padding:6px 10px;
-  background:var(--panel);border:1px solid var(--border);margin-bottom:12px;
+.footer-bar .fl { color:var(--text); }
+.footer-bar .fl span { font-weight:700; display:block; font-size:12px; }
+.footer-bar .fr { display:flex; align-items:center; gap:16px; }
+.footer-action { color:var(--muted); cursor:pointer; font-weight:500; transition:color .18s; }
+.footer-action:hover { color:var(--navy); }
+.flag-circle {
+  width:28px; height:28px; border-radius:50%; overflow:hidden;
+  display:flex; flex-direction:column;
 }
+.flag-circle div { flex:1; }
 
-/* Streak badge */
-.streak-badge{
-  display:inline-flex;align-items:center;gap:4px;
-  padding:3px 8px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);
-  font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:1px;color:var(--gold);
+/* Responsive — mobile */
+@media (max-width:640px) {
+  .sidebar { display:none; }
+  .main-area { margin-left:0; }
+  .cat-grid { grid-template-columns:1fr 1fr; gap:10px; }
+  .content, .quiz-content, .results-content { padding:16px; }
+  .res-stats { grid-template-columns:repeat(2,1fr); }
+  .topbar { padding:0 16px; }
+  .topbar-left h1 { font-size:14px; }
+  .footer-bar { display:none; }
+  /* Bottom nav mobile */
+  .bottom-nav-mobile {
+    display:flex !important;
+    position:fixed; bottom:0; left:0; right:0; z-index:150;
+    padding-bottom:var(--safe-bot);
+    background:var(--white); border-top:1px solid var(--border);
+    justify-content:space-around;
+  }
+  .main-area { padding-bottom:56px; }
 }
+@media (min-width:641px) {
+  .bottom-nav-mobile { display:none !important; }
+}
+.bottom-nav-mobile {
+  display:none;
+}
+.bnav-item {
+  flex:1; display:flex; flex-direction:column; align-items:center;
+  padding:8px 4px 6px; cursor:pointer; transition:color .18s;
+  color:var(--muted); font-size:9px; font-weight:600; letter-spacing:.04em;
+  text-transform:uppercase; gap:3px; min-height:50px;
+  -webkit-user-select:none; user-select:none;
+}
+.bnav-item.active { color:var(--navy); }
+.bnav-item .bi { font-size:18px; }
+
+/* Keyboard hint */
+.kb-hint { font-size:10px; color:var(--muted2); text-align:right; margin-top:10px; }
+kbd { background:var(--bg); border:1px solid var(--border); padding:1px 5px; border-radius:3px; font-size:9px; }
 </style>
 </head>
 <body>
 
-<!-- Offline strip -->
-<div class="offline-strip" id="offline-strip">⚠ MODE HORS LIGNE — Banque statique uniquement</div>
+<div class="offline-strip" id="offline-strip">⚠ Mode hors ligne — banque statique active</div>
 
-<!-- Install banner (PWA) -->
-<div class="install-banner" id="install-banner" style="display:none;position:fixed;bottom:calc(12px + env(safe-area-inset-bottom,0px));left:12px;right:12px;background:var(--surface);border:1px solid var(--accent);padding:14px 16px;z-index:500;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.6)">
-  <span style="font-size:28px">📲</span>
-  <div style="flex:1">
-    <div style="font-family:var(--sans);font-weight:700;letter-spacing:1px;color:#fff;font-size:13px">Installer PSYTECH</div>
-    <div style="font-size:11px;color:var(--muted);margin-top:2px">Accès rapide, fonctionne hors ligne</div>
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <!-- Drapeau du Bénin SVG réel : bande verte à gauche, jaune en haut à droite, rouge en bas à droite -->
+    <div class="sb-flag-wrap">
+      <svg width="62" height="42" viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" style="border-radius:4px;display:block;box-shadow:0 2px 8px rgba(0,0,0,.35)">
+        <!-- Bande verte verticale à gauche (1/3) -->
+        <rect x="0" y="0" width="1" height="2" fill="#008751"/>
+        <!-- Bande jaune horizontale en haut à droite (2/3 × 1/2) -->
+        <rect x="1" y="0" width="2" height="1" fill="#FCD116"/>
+        <!-- Bande rouge horizontale en bas à droite (2/3 × 1/2) -->
+        <rect x="1" y="1" width="2" height="1" fill="#E8112D"/>
+      </svg>
+    </div>
+    <div class="sb-title">Armée de l'Air</div>
+    <div class="sb-sub">République du Bénin</div>
   </div>
-  <button class="btn btn-primary btn-sm" id="btn-install">INSTALLER</button>
+
+  <nav class="sb-nav">
+    <div class="nav-item active" id="nav-home" onclick="goHome()">
+      <span class="ni">🏠</span> Accueil
+    </div>
+    <div class="nav-item" onclick="startCat('logique')">
+      <span class="ni">◇</span> Logique
+    </div>
+    <div class="nav-item" onclick="startCat('calcul')">
+      <span class="ni">∑</span> Calcul
+    </div>
+    <div class="nav-item" onclick="startCat('memoire')">
+      <span class="ni">○</span> Mémoire
+    </div>
+    <div class="nav-item" onclick="startCat('spatial')">
+      <span class="ni">⬡</span> Spatial
+    </div>
+    <div class="nav-item" onclick="startCat('vocabulaire')">
+      <span class="ni">□</span> Vocabulaire
+    </div>
+    <div class="nav-item" onclick="startCat('instrument')">
+      <span class="ni">✈</span> Instruments
+    </div>
+    <div class="nav-item" onclick="startRandom()">
+      <span class="ni">⊞</span> Aléatoire
+    </div>
+  </nav>
+
+  <div class="sb-bottom">
+    <div class="sb-flag">
+      <div class="flag-g"></div>
+      <div class="flag-y"></div>
+      <div class="flag-r"></div>
+    </div>
+    <div class="sb-motto">« S'élever<br>pour faire face »</div>
+  </div>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<div class="main-area">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <h1>Armée de l'Air</h1>
+      <p>Bénin</p>
+    </div>
+    <div class="topbar-right">
+      <div style="display:flex;gap:6px">
+        <button class="diff-pill soff" id="btn-soff"  onclick="setDiff('facile')">S/OFF</button>
+        <button class="diff-pill off"  id="btn-pilot" onclick="setDiff('difficile')">Pilote</button>
+      </div>
+      <div class="score-box" id="score-box">0/0</div>
+      <div class="topbar-actions">
+        <div class="icon-btn" onclick="toggleTheme()" title="Thème">☀</div>
+        <div class="icon-btn" title="Aide">?</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ HOME ═══ -->
+  <div class="screen active" id="screen-home">
+  <div class="content">
+
+    <!-- Stats row -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card">
+        <span class="stat-val" id="st-score" style="color:var(--navy)">0/0</span>
+        <span class="stat-lbl">Session</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-val" id="st-pct" style="color:#16a34a">—%</span>
+        <span class="stat-lbl">Réussite</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-val" id="st-streak" style="color:#d97706">0</span>
+        <span class="stat-lbl">Série 🔥</span>
+      </div>
+    </div>
+
+    <!-- Mode tabs -->
+    <div class="mode-tabs">
+      <div class="mode-tab active" id="tab-static" onclick="setMode('static')">
+        <div class="mt-icon">📚</div>
+        <div class="mt-label">Banque statique</div>
+      </div>
+      <div class="mode-tab" id="tab-ai" onclick="setMode('ai')">
+        <div class="mt-icon">🤖</div>
+        <div class="mt-label">IA générative</div>
+      </div>
+    </div>
+
+    <!-- AI config -->
+    <div class="ai-config" id="ai-config">
+      <label>Clé API Anthropic</label>
+      <input type="password" id="ai-key" placeholder="sk-ant-…" oninput="saveKey(this.value)">
+      <p>Sans clé : questions de la banque statique. Avec clé : génération illimitée en temps réel.</p>
+      <div class="ai-status">
+        <div class="ai-led" id="ai-led"></div>
+        <span id="ai-st">Clé non configurée</span>
+      </div>
+    </div>
+
+    <!-- Modules section -->
+    <div class="sec-head">
+      <div class="sec-title">Modules</div>
+      <div class="sec-action" id="diff-badge" onclick="setDiff(diff==='facile'?'difficile':'facile')">
+        NIVEAU : SOUS-OFFICIER &rsaquo;
+      </div>
+    </div>
+
+    <div class="cat-grid" id="cat-grid"></div>
+
+    <!-- History -->
+    <div id="hist-sec" style="display:none;margin-top:28px">
+      <div class="sec-head">
+        <div class="sec-title">Dernières réponses</div>
+        <div class="sec-action" onclick="resetSession()">Effacer</div>
+      </div>
+      <div id="hist-list"></div>
+    </div>
+
+  </div>
+  </div>
+
+  <!-- ═══ QUIZ ═══ -->
+  <div class="screen" id="screen-quiz">
+  <div class="quiz-content">
+
+    <div class="quiz-topbar">
+      <div class="quiz-info">
+        <div class="quiz-cat-tag" id="q-cat-lbl">LOGIQUE</div>
+        <div class="quiz-mod-title" id="q-mod-title">Raisonnement Abstrait</div>
+      </div>
+      <div class="quiz-right">
+        <div class="timer-ring">
+          <svg width="54" height="54" viewBox="0 0 54 54">
+            <circle cx="27" cy="27" r="23" fill="none" stroke="var(--border)" stroke-width="3.5"/>
+            <circle id="timer-arc" cx="27" cy="27" r="23" fill="none" stroke="var(--navy)"
+              stroke-width="3.5" stroke-linecap="round"
+              stroke-dasharray="144.5" stroke-dashoffset="0"
+              style="transition:stroke-dashoffset .5s linear,stroke .3s"/>
+          </svg>
+          <div class="timer-num" id="timer-num">40</div>
+        </div>
+        <button class="btn btn-muted btn-sm" onclick="goHome()">✕ Quitter</button>
+      </div>
+    </div>
+
+    <div class="prog-row">
+      <div class="prog-track"><div class="prog-fill" id="q-prog" style="width:0%"></div></div>
+      <div class="prog-lbl" id="q-prog-lbl">Q 1</div>
+    </div>
+
+    <!-- Skeleton -->
+    <div id="skeleton" style="display:none">
+      <div class="skeleton">
+        <div class="skel-line" style="width:30%"></div>
+        <div class="skel-line" style="width:80%"></div>
+        <div class="skel-line" style="width:65%;margin-bottom:20px"></div>
+        <div class="skel-opt"></div><div class="skel-opt"></div>
+        <div class="skel-opt"></div><div class="skel-opt"></div>
+        <div class="skel-msg">🤖 Génération IA en cours…</div>
+      </div>
+    </div>
+
+    <!-- Question -->
+    <div id="q-card" class="q-card">
+      <div class="q-badges">
+        <span class="q-badge q-badge-diff-easy" id="q-diff-badge">SOUS-OFFICIER</span>
+        <span class="q-badge q-badge-cat" id="q-cat-badge">LOGIQUE</span>
+        <span class="q-badge q-badge-ai" id="q-ai-badge" style="display:none">
+          <div class="ai-dot-anim"></div>IA
+        </span>
+      </div>
+      <div class="q-text" id="q-text"></div>
+      <div class="q-visual hidden" id="q-visual"></div>
+      <div class="options" id="q-opts"></div>
+      <div class="feedback" id="q-fb">
+        <div class="fb-title" id="fb-title"></div>
+        <div class="fb-body"  id="fb-body"></div>
+      </div>
+    </div>
+
+    <div class="quiz-nav">
+      <div class="q-count">
+        Q <strong id="q-num">1</strong> / <strong id="q-tot">10</strong>
+        <span class="streak-chip" id="streak-chip" style="display:none">🔥 <span id="streak-n">0</span></span>
+      </div>
+      <button class="btn btn-navy" id="btn-next" onclick="nextQ()" style="display:none">Suivant →</button>
+    </div>
+    <div class="kb-hint" id="kb-hint">
+      <kbd>A</kbd> <kbd>B</kbd> <kbd>C</kbd> <kbd>D</kbd> · <kbd>Entrée</kbd> suivant · <kbd>Échap</kbd> accueil
+    </div>
+
+  </div>
+  </div>
+
+  <!-- ═══ RESULTS ═══ -->
+  <div class="screen" id="screen-results">
+  <div class="results-content">
+
+    <div class="res-hero">
+      <div class="res-eyebrow">Résultat final</div>
+      <div class="res-grade A" id="res-grade">A</div>
+      <div class="res-score"   id="res-score">8 / 10 — 80%</div>
+      <div class="res-verdict" id="res-verdict"></div>
+    </div>
+
+    <div class="res-stats">
+      <div class="rs"><span class="rs-num" id="rs-ok"  style="color:#16a34a">0</span><span class="rs-lbl">Bonnes</span></div>
+      <div class="rs"><span class="rs-num" id="rs-ko"  style="color:#dc2626">0</span><span class="rs-lbl">Mauvaises</span></div>
+      <div class="rs"><span class="rs-num" id="rs-t"   style="color:#2563eb">0s</span><span class="rs-lbl">Moy/Q</span></div>
+      <div class="rs"><span class="rs-num" id="rs-cat" style="color:#2563eb;font-size:16px">—</span><span class="rs-lbl">Catégorie</span></div>
+    </div>
+
+    <div class="sec-head"><div class="sec-title">Révision des réponses</div></div>
+    <ul style="list-style:none" id="review-list"></ul>
+
+    <div class="res-actions">
+      <button class="btn btn-navy" onclick="retryLast()">↺ Recommencer</button>
+      <button class="btn btn-outline" onclick="goHome()">⌂ Accueil</button>
+    </div>
+  </div>
+  </div>
+
+  <!-- FOOTER BAR -->
+  <div class="footer-bar">
+    <div class="fl">
+      <span>Armée de l'Air du Bénin</span>
+      S'élever pour faire face.
+    </div>
+    <div class="fr">
+      <span class="footer-action" onclick="toggleTheme()">☀ Thème</span>
+      <span class="footer-action">Aide</span>
+      <div class="flag-circle">
+        <div class="flag-g"></div>
+        <div class="flag-y"></div>
+        <div class="flag-r"></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end main-area -->
+
+<!-- BOTTOM NAV MOBILE -->
+<nav class="bottom-nav-mobile" id="bottom-nav">
+  <div class="bnav-item active" id="bnav-h" onclick="goHome()"><div class="bi">🏠</div>Accueil</div>
+  <div class="bnav-item" onclick="startCat('logique')"><div class="bi">◇</div>Logique</div>
+  <div class="bnav-item" onclick="startCat('calcul')"><div class="bi">∑</div>Calcul</div>
+  <div class="bnav-item" onclick="startCat('instrument')"><div class="bi">✈</div>Instrum.</div>
+  <div class="bnav-item" onclick="startRandom()"><div class="bi">⊞</div>Aléatoire</div>
+</nav>
+
+<!-- INSTALL BANNER -->
+<div id="install-banner">
+  <span style="font-size:28px;flex-shrink:0">📲</span>
+  <div class="ib-txt" style="flex:1">
+    <strong>Installer PSYTECH</strong>
+    <span>Accès rapide · Fonctionne hors ligne</span>
+  </div>
+  <button class="btn btn-navy btn-sm" id="btn-install">Installer</button>
   <button class="btn btn-muted btn-sm" id="btn-dismiss">✕</button>
 </div>
 
-<!-- HEADER -->
-<header>
-  <div class="logo">
-    <div class="rhombus"><span>AA</span></div>
-    <div class="logo-text">
-      <h1>PSYTECH</h1>
-      <p>Armée de l'Air</p>
-    </div>
-  </div>
-  <div class="header-right">
-    <div class="diff-toggle">
-      <button class="diff-btn on-easy" id="btn-soff"  onclick="setDiff('facile')">S/OFF</button>
-      <button class="diff-btn"         id="btn-pilot" onclick="setDiff('difficile')">PILOTE</button>
-    </div>
-    <div class="hud" id="hud" style="display:none">
-      <div class="hud-block">
-        <div class="hud-val" id="hud-score">0/0</div>
-        <div class="hud-lbl">SESSION</div>
-      </div>
-    </div>
-  </div>
-</header>
-
-<!-- ══════════════ HOME ══════════════ -->
-<div class="screen active" id="screen-home">
-
-  <div class="banner">
-    <h2>Entraînement Psychotechnique</h2>
-    <p>Tests officiels AdlA — Niveaux Sous-Officier &amp; Pilote Classe 1</p>
-    <div class="banner-actions">
-      <button class="btn btn-primary" onclick="startRandom()">▶ SESSION ALÉATOIRE</button>
-      <button class="btn btn-outline btn-sm" onclick="resetSession()">↺ RÉINITIALISER</button>
-    </div>
-  </div>
-
-  <!-- Mode tabs -->
-  <div class="mode-tab">
-    <div class="tab active" id="tab-static" onclick="setMode('static')">📚 Banque statique</div>
-    <div class="tab" id="tab-ai" onclick="setMode('ai')">🤖 IA Générative</div>
-  </div>
-
-  <!-- AI key config (hidden by default) -->
-  <div id="ai-config" style="display:none">
-    <div class="ai-key-wrap">
-      <label>Clé API Anthropic (optionnelle)</label>
-      <input type="password" id="ai-key-input" placeholder="sk-ant-…" oninput="saveApiKey(this.value)">
-      <p>Sans clé : questions pré-générées en cache. Avec clé : génération en temps réel illimitée.</p>
-    </div>
-    <div class="ai-status" id="ai-status">
-      <span id="ai-dot" style="width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0"></span>
-      <span id="ai-status-text">Statut : clé non configurée — mode cache actif</span>
-    </div>
-  </div>
-
-  <div class="section-head"><span>Modules d'entraînement</span><span id="diff-lbl" style="color:var(--gold)">SOUS-OFFICIER</span></div>
-
-  <div class="cat-grid" id="cat-grid"></div>
-
-  <div id="hist-section" style="display:none">
-    <div class="section-head"><span>Dernières réponses</span><span id="hist-count"></span></div>
-    <div id="hist-list"></div>
-  </div>
-</div>
-
-<!-- ══════════════ QUIZ ══════════════ -->
-<div class="screen" id="screen-quiz">
-  <div class="quiz-header">
-    <div class="quiz-meta">
-      <div class="quiz-cat" id="q-cat-lbl">LOGIQUE</div>
-      <div class="quiz-title" id="q-title">Raisonnement Abstrait</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <div class="timer-wrap" id="timer-wrap">
-        <svg width="52" height="52" viewBox="0 0 52 52">
-          <circle cx="26" cy="26" r="22" fill="none" stroke="var(--dim)" stroke-width="3"/>
-          <circle id="timer-ring" cx="26" cy="26" r="22" fill="none" stroke="var(--accent)"
-            stroke-width="3" stroke-linecap="round"
-            stroke-dasharray="138.2" stroke-dashoffset="0" style="transition:stroke-dashoffset .5s linear,stroke .5s"/>
-        </svg>
-        <div class="timer-num" id="timer-num">30</div>
-      </div>
-      <button class="btn btn-muted btn-sm" onclick="goHome()">✕</button>
-    </div>
-  </div>
-
-  <div class="prog-strip">
-    <div class="prog-labels">
-      <span id="q-prog-lbl">Q 1 / 10</span>
-      <span id="q-prog-pct">0%</span>
-    </div>
-    <div class="prog-track"><div class="prog-fill" id="q-prog-bar" style="width:0%"></div></div>
-  </div>
-
-  <!-- Skeleton loader (AI) -->
-  <div id="skeleton" class="q-card" style="display:none">
-    <div class="skel skel-block" style="width:40%"></div>
-    <div class="skel skel-block" style="width:85%"></div>
-    <div class="skel skel-block" style="width:70%;margin-bottom:18px"></div>
-    <div class="skel skel-opt"></div>
-    <div class="skel skel-opt"></div>
-    <div class="skel skel-opt"></div>
-    <div class="skel skel-opt"></div>
-    <div class="skel-loading">
-      <span style="color:var(--purple)">◐</span> Génération IA en cours…
-    </div>
-  </div>
-
-  <!-- Question card -->
-  <div class="q-card" id="q-card">
-    <div class="q-badge">
-      <div class="diff-dot" id="q-diff-dot"></div>
-      <span class="badge-text" id="q-diff-lbl"></span>
-      <span style="color:var(--dim)">·</span>
-      <span class="badge-text" id="q-type-lbl"></span>
-      <div class="ai-badge" id="ai-badge" style="display:none">
-        <div class="ai-dot"></div>IA
-      </div>
-    </div>
-    <div class="q-text" id="q-text"></div>
-    <div class="q-visual hidden" id="q-visual"></div>
-    <div id="q-options"></div>
-    <div class="feedback" id="q-feedback">
-      <div class="feedback-title" id="fb-title"></div>
-      <div class="feedback-body" id="fb-body"></div>
-    </div>
-  </div>
-
-  <div class="quiz-nav">
-    <div class="q-counter">Q<strong id="q-num">1</strong> / <strong id="q-tot">10</strong>
-      <span id="streak-wrap" style="margin-left:8px;display:none">
-        <span class="streak-badge">🔥 <span id="streak-num">0</span></span>
-      </span>
-    </div>
-    <button class="btn btn-primary" id="btn-next" onclick="nextQ()" style="display:none">SUIVANT ›</button>
-  </div>
-</div>
-
-<!-- ══════════════ RESULTS ══════════════ -->
-<div class="screen" id="screen-results">
-  <div class="results-hero">
-    <div style="font-family:var(--sans);font-size:11px;letter-spacing:3px;color:var(--muted);margin-bottom:4px;text-transform:uppercase">Résultat Final</div>
-    <div class="res-grade" id="res-grade">A</div>
-    <div class="res-score" id="res-score">8 / 10 — 80%</div>
-    <div class="res-verdict" id="res-verdict"></div>
-  </div>
-  <div class="res-stats">
-    <div class="res-stat"><span class="res-stat-num" id="rs-ok" style="color:var(--green)">0</span><span class="res-stat-lbl">Bonnes</span></div>
-    <div class="res-stat"><span class="res-stat-num" id="rs-ko" style="color:var(--red)">0</span><span class="res-stat-lbl">Mauvaises</span></div>
-    <div class="res-stat"><span class="res-stat-num" id="rs-time" style="color:var(--accent2)">0s</span><span class="res-stat-lbl">Moy./Q</span></div>
-    <div class="res-stat"><span class="res-stat-num" id="rs-cat" style="color:var(--accent2);font-size:18px">—</span><span class="res-stat-lbl">Catégorie</span></div>
-  </div>
-  <div class="section-head"><span>Révision</span></div>
-  <ul class="review-list" id="review-list"></ul>
-  <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;padding-bottom:32px">
-    <button class="btn btn-primary" onclick="retryLast()">↺ RECOMMENCER</button>
-    <button class="btn btn-outline" onclick="goHome()">⌂ ACCUEIL</button>
-  </div>
-</div>
-
-<!-- ══════════════ SCRIPT ══════════════ -->
 <script>
-// ─── QUESTION BANK ───────────────────────────────────────────────────
-const BANKS = {
-logique:{label:'Logique',icon:'◈',color:'#0ea5e9',
+// ─── BANQUE ───────────────────────────────────────────────────────────
+const CAT_COLORS={logique:'#2563eb',calcul:'#d97706',memoire:'#16a34a',spatial:'#dc2626',vocabulaire:'#7c3aed',instrument:'#0891b2'};
+const CAT_BG    ={logique:'#eff6ff',calcul:'#fffbeb',memoire:'#f0fdf4',spatial:'#fef2f2',vocabulaire:'#f3e8ff',instrument:'#ecfeff'};
+const CAT_ICONS ={logique:'🧠',calcul:'∑',memoire:'◉',spatial:'⬡',vocabulaire:'Ω',instrument:'✈'};
+const CAT_DESCS ={logique:'Séries, analogies, syllogismes',calcul:'Vitesse, %, conversions aéro',memoire:'Séquences, attention, intrus',spatial:'Caps, rotations, cubes 3D',vocabulaire:'Synonymes, antonymes, jargon',instrument:'Altimètre, ADI, ILS, RMI'};
+
+const BANKS={
+logique:{label:'Logique',
  facile:[
-  {t:"Complétez la suite : 2, 4, 6, 8, ?",opts:["9","10","12","11"],a:1,e:"Suite arithmétique de raison +2 : 8+2=10."},
-  {t:"Suite : 1, 4, 9, 16, ?",opts:["20","25","22","18"],a:1,e:"Carrés successifs : 1²,2²,3²,4²,5²=25."},
-  {t:"Suite : 3, 6, 12, 24, ?",opts:["36","48","42","30"],a:1,e:"Suite géométrique ×2 : 24×2=48."},
-  {t:"Suite : A, C, E, G, ?",opts:["H","I","J","K"],a:1,e:"Lettres impaires : +2 positions. G(7e)→I(9e)."},
-  {t:"AVION est à PILOTE ce que TRAIN est à ?",opts:["Passager","Rail","Conducteur","Gare"],a:2,e:"L'avion est conduit par un pilote, le train par un conducteur."},
+  {t:"Complétez la suite : 2, 4, 6, 8, ?",opts:["9","10","12","11"],a:1,e:"Suite arithmétique +2 : 8+2=10."},
+  {t:"Suite : 1, 4, 9, 16, ?",opts:["20","25","22","18"],a:1,e:"Carrés successifs : 5²=25."},
+  {t:"Suite : 3, 6, 12, 24, ?",opts:["36","48","42","30"],a:1,e:"Géométrique ×2 : 24×2=48."},
+  {t:"Suite : A, C, E, G, ?",opts:["H","I","J","K"],a:1,e:"Lettres impaires : G(7e)→I(9e)."},
+  {t:"AVION est à PILOTE ce que TRAIN est à ?",opts:["Passager","Rail","Conducteur","Gare"],a:2,e:"Le train est conduit par un conducteur."},
   {t:"CHAUD → FROID :: JOUR → ?",opts:["Soleil","Sombre","Nuit","Heure"],a:2,e:"Antonyme direct."},
-  {t:"Suite : 100, 90, 81, 73, ?",opts:["65","66","68","64"],a:1,e:"Différences : -10,-9,-8,-7 → 73-7=66."},
+  {t:"Suite : 100, 90, 81, 73, ?",opts:["65","66","68","64"],a:1,e:"Différences -10,-9,-8,-7 → 73-7=66."},
   {t:"Tous les militaires sont disciplinés. Marc est militaire. Donc Marc est ?",opts:["Intelligent","Discipliné","Courageux","Officier"],a:1,e:"Syllogisme direct."},
-  {t:"Suite : 5, 10, 20, 40, ?",opts:["60","70","80","100"],a:2,e:"×2 à chaque terme : 40×2=80."},
-  {t:"Quelle figure est à un carré ce que la sphère est à un cercle ?",opts:["Triangle","Cube","Cylindre","Cône"],a:1,e:"Le cube est la version 3D du carré, comme la sphère l'est du cercle."},
+  {t:"Suite : 5, 10, 20, 40, ?",opts:["60","70","80","100"],a:2,e:"×2 à chaque terme."},
+  {t:"La sphère est au cercle ce que le cube est à ?",opts:["Triangle","Carré","Cylindre","Cône"],a:1,e:"Le cube est la version 3D du carré."},
  ],
  difficile:[
-  {t:"Suite de Fibonacci : 1, 1, 2, 3, 5, 8, 13, ?",opts:["18","21","20","19"],a:1,e:"Chaque terme = somme des deux précédents. 8+13=21."},
+  {t:"Suite de Fibonacci : 1, 1, 2, 3, 5, 8, 13, ?",opts:["18","21","20","19"],a:1,e:"Somme des deux précédents : 8+13=21."},
   {t:"Suite : 2, 6, 12, 20, 30, 42, ?",opts:["52","56","54","58"],a:1,e:"n(n+1) pour n=1..7 : 7×8=56."},
   {t:"Suite : 1, 8, 27, 64, 125, ?",opts:["196","216","225","256"],a:1,e:"Cubes successifs : 6³=216."},
-  {t:"Si tous les A sont B, et aucun B n'est C, alors aucun A n'est C.",opts:["Vrai","Faux","Indéterminé","Partiel"],a:0,e:"Si A⊂B et B∩C=∅, alors A∩C=∅."},
-  {t:"Suite des carrés de nombres premiers : 4, 9, 25, 49, 121, ?",opts:["144","169","196","225"],a:1,e:"Nombres premiers : 2,3,5,7,11,13. 13²=169."},
-  {t:"DÉDUCTION — INDUCTION :: PARTICULIER — ?",opts:["Général","Spécifique","Unique","Précis"],a:0,e:"La déduction va du général au particulier ; l'induction du particulier au général."},
-  {t:"Suite : 2, 3, 5, 8, 12, 17, ?",opts:["21","23","25","22"],a:1,e:"Différences : +1,+2,+3,+4,+5,+6 → 17+6=23."},
-  {t:"FRÉQUENCE est à HERTZ ce que PRESSION est à ?",opts:["Newton","Pascal","Bar","Joule"],a:1,e:"L'unité SI de la pression est le Pascal (Pa)."},
+  {t:"Si tous les A sont B, et aucun B n'est C ?",opts:["Certains A sont C","Aucun A n'est C","Certains C sont A","Tous les C sont A"],a:1,e:"A⊂B et B∩C=∅ → A∩C=∅."},
+  {t:"Carrés de nombres premiers : 4, 9, 25, 49, 121, ?",opts:["144","169","196","225"],a:1,e:"13 est premier : 13²=169."},
+  {t:"DÉDUCTION — INDUCTION :: PARTICULIER — ?",opts:["Général","Spécifique","Unique","Précis"],a:0,e:"Induction : particulier→général."},
+  {t:"Suite : 2, 3, 5, 8, 12, 17, ?",opts:["21","23","25","22"],a:1,e:"Différences +1,+2,+3,+4,+5,+6 → 23."},
+  {t:"FRÉQUENCE est à HERTZ ce que PRESSION est à ?",opts:["Newton","Pascal","Bar","Joule"],a:1,e:"Unité SI de la pression = Pascal."},
  ]
 },
-calcul:{label:'Calcul',icon:'∑',color:'#f59e0b',
+calcul:{label:'Calcul',
  facile:[
   {t:"Un avion vole à 600 km/h. En 30 minutes, quelle distance ?",opts:["200 km","300 km","400 km","450 km"],a:1,e:"600×0.5=300 km."},
   {t:"15% de 200 = ?",opts:["25","30","35","40"],a:1,e:"15/100×200=30."},
   {t:"Vitesse 360 km/h en m/s ?",opts:["80 m/s","100 m/s","60 m/s","90 m/s"],a:1,e:"360÷3.6=100 m/s."},
-  {t:"Réservoir 800 L à 65%. Combien manque-t-il ?",opts:["280 L","300 L","320 L","260 L"],a:0,e:"800×0.65=520 L présents ; 800-520=280 L."},
-  {t:"PGCD de 48 et 36 ?",opts:["6","8","12","18"],a:2,e:"48=4×12 ; 36=3×12. PGCD=12."},
+  {t:"Réservoir 800 L à 65%. Combien manque-t-il ?",opts:["280 L","300 L","320 L","260 L"],a:0,e:"800×0.65=520 L ; 800-520=280 L."},
+  {t:"PGCD de 48 et 36 ?",opts:["6","8","12","18"],a:2,e:"48=4×12 ; 36=3×12."},
   {t:"37 × 3 + 14 – 5 = ?",opts:["118","120","115","122"],a:1,e:"111+14-5=120."},
-  {t:"8 soldats consomment 40 rations en 5 jours. Combien pour 12 soldats sur 10 jours ?",opts:["90","100","120","80"],a:2,e:"1 soldat=1 ration/jour. 12×10=120."},
+  {t:"8 soldats, 40 rations en 5 jours. Pour 12 soldats sur 10 jours ?",opts:["90","100","120","80"],a:2,e:"1 ration/soldat/jour. 12×10=120."},
   {t:"√144 = ?",opts:["11","12","13","14"],a:1,e:"12×12=144."},
  ],
  difficile:[
-  {t:"Avion monte à 800 ft/min. Depuis 2000 ft vers FL120 (12000 ft), combien de temps ?",opts:["10 min","12 min 30s","14 min","15 min"],a:1,e:"10000÷800=12.5 min=12 min 30s."},
-  {t:"Taux de conso 2400 L/h, réservoir 7200 L. Autonomie à 80% de puissance ?",opts:["3h00","3h45","4h00","3h30"],a:1,e:"2400×0.8=1920 L/h. 7200÷1920=3.75h=3h45."},
+  {t:"Montée 800 ft/min. Depuis 2000 ft vers FL120 (12000 ft) ?",opts:["10 min","12 min 30s","14 min","15 min"],a:1,e:"10000÷800=12.5 min."},
+  {t:"Conso 2400 L/h, réservoir 7200 L. Autonomie à 80% de puissance ?",opts:["3h00","3h45","4h00","3h30"],a:1,e:"1920 L/h. 7200÷1920=3.75h=3h45."},
   {t:"√1764 = ?",opts:["42","43","44","41"],a:0,e:"42²=1764."},
-  {t:"sin(30°)×cos(60°)+cos(30°)×sin(60°) = ?",opts:["0.5","0.75","1","0.866"],a:2,e:"C'est sin(90°)=1."},
-  {t:"Un aéronef fait 3 tours en 12 minutes. Combien de degrés/seconde ?",opts:["1.5°/s","3°/s","1°/s","2°/s"],a:0,e:"3×360=1080°. 12×60=720s. 1080÷720=1.5°/s."},
+  {t:"sin(30°)×cos(60°)+cos(30°)×sin(60°) = ?",opts:["0.5","0.75","1","0.866"],a:2,e:"sin(a+b) → sin(90°)=1."},
+  {t:"3 tours en 12 minutes. Combien de degrés/seconde ?",opts:["1.5°/s","3°/s","1°/s","2°/s"],a:0,e:"3×360=1080°. 720s. 1080÷720=1.5°/s."},
   {t:"1850 m en milles nautiques (1 NM=1852 m) ?",opts:["0.9 NM","1.0 NM","1.1 NM","0.8 NM"],a:1,e:"1850÷1852≈1.0 NM."},
-  {t:"Cap 045°, vent traversier 40 kt, vitesse propre 240 kt. Vitesse sol approx ?",opts:["200 kt","240 kt","243 kt","280 kt"],a:2,e:"Vent traversier pur : √(240²+40²)≈243 kt."},
+  {t:"Vent traversier 40 kt, vitesse propre 240 kt. Vitesse sol ?",opts:["200 kt","240 kt","243 kt","280 kt"],a:2,e:"√(240²+40²)≈243 kt."},
  ]
 },
-memoire:{label:'Mémoire',icon:'◉',color:'#22c55e',
+memoire:{label:'Mémoire',
  facile:[
-  {t:"Séquence : 7 – 3 – 9 – 1 – 5\n\nQuel était le 3ème chiffre ?",opts:["3","7","9","1"],a:2,e:"7(1) 3(2) 9(3) 1(4) 5(5). 3ème=9."},
-  {t:"Liste : FUSÉE – RADAR – DELTA – OSCAR – BRAVO\n\nQuel mot en 4ème position ?",opts:["DELTA","OSCAR","BRAVO","RADAR"],a:1,e:"1.FUSÉE 2.RADAR 3.DELTA 4.OSCAR 5.BRAVO."},
-  {t:"Suite : B, F, K, M, T, A, R\n\nLettre en 5ème position ?",opts:["M","A","T","K"],a:2,e:"B(1)F(2)K(3)M(4)T(5)."},
-  {t:"Intrus parmi : AIGLE – FAUCON – BUSE – RENARD – MILAN",opts:["AIGLE","FAUCON","RENARD","MILAN"],a:2,e:"RENARD est un mammifère ; les autres sont des rapaces."},
-  {t:"Combien de 'A' dans : L'ARMÉE DE L'AIR ASSURE LA PROTECTION DE L'ESPACE AÉRIEN",opts:["7","8","9","6"],a:1,e:"A-RMÉE, l'A-IR, A-SSURE, l-A-,ESP-A-CE, A-ÉRIEN + 2 autres = 8."},
-  {t:"Mémorisez : ALPHA=1 BRAVO=2 CHARLIE=3 DELTA=4 ECHO=5\n\nCHARLIE + ECHO = ?",opts:["6","7","8","35"],a:2,e:"3+5=8."},
+  {t:"Séquence : 7 – 3 – 9 – 1 – 5\n\nQuel était le 3ème chiffre ?",opts:["3","7","9","1"],a:2,e:"7(1) 3(2) 9(3)."},
+  {t:"Liste : FUSÉE – RADAR – DELTA – OSCAR – BRAVO\n\nQuel mot en 4ème position ?",opts:["DELTA","OSCAR","BRAVO","RADAR"],a:1,e:"4ème = OSCAR."},
+  {t:"Suite : B, F, K, M, T, A, R — Lettre en 5ème position ?",opts:["M","A","T","K"],a:2,e:"B(1)F(2)K(3)M(4)T(5)."},
+  {t:"Intrus : AIGLE – FAUCON – BUSE – RENARD – MILAN",opts:["AIGLE","FAUCON","RENARD","MILAN"],a:2,e:"RENARD est un mammifère."},
+  {t:"Combien de 'A' dans :\n« L'ARMÉE DE L'AIR ASSURE LA PROTECTION »",opts:["5","6","7","4"],a:1,e:"6 occurrences."},
+  {t:"ALPHA=1, BRAVO=2, CHARLIE=3, DELTA=4, ECHO=5\nCHARLIE + ECHO = ?",opts:["6","7","8","35"],a:2,e:"3+5=8."},
  ],
  difficile:[
-  {t:"Séquence : 4G-7K-2M-9B-5T\n\nOrdre croissant par chiffre : 3ème paire ?",opts:["5T","7K","4G","9B"],a:0,e:"2M,4G,5T,7K,9B. 3ème=5T."},
-  {t:"L1 : 83–47–62–91–55–38\nL2 : 83–47–26–91–55–38\n\nQuelle position diffère ?",opts:["Position 1","Position 3","Position 5","Position 6"],a:1,e:"Position 3 : 62 vs 26 (chiffres inversés)."},
-  {t:"Code : ECHO-DELTA-ALPHA = ?",opts:["5-4-1","4-5-1","5-3-1","4-3-1"],a:0,e:"ECHO=5,DELTA=4,ALPHA=1 → 5-4-1."},
-  {t:"Mémorisez 30s : 7-2-8-4-1-9-3-6-5\n\nSomme des positions paires (2e,4e,6e,8e) ?",opts:["18","21","22","20"],a:2,e:"2e=2,4e=4,6e=9,8e=6+1non→2+4+9+6=21. (2e=2, 4e=4, 6e=9, 8e=6) → 2+4+9+6=21."},
+  {t:"4G-7K-2M-9B-5T — Ordre croissant par chiffre : 3ème paire ?",opts:["5T","7K","4G","9B"],a:0,e:"2M,4G,5T,7K,9B. 3ème=5T."},
+  {t:"L1 : 83–47–62–91–55–38\nL2 : 83–47–26–91–55–38\nQuelle position diffère ?",opts:["Position 1","Position 3","Position 5","Position 6"],a:1,e:"Position 3 : 62 vs 26."},
+  {t:"Code ECHO-DELTA-ALPHA = ?",opts:["5-4-1","4-5-1","5-3-1","4-3-1"],a:0,e:"E=5, D=4, A=1."},
+  {t:"Séquence : 7-2-8-4-1-9-3-6-5\nSomme des positions paires (2,4,6,8) ?",opts:["18","21","22","20"],a:1,e:"2+4+9+6=21."},
  ]
 },
-spatial:{label:'Spatial / 3D',icon:'⬡',color:'#f97316',
+spatial:{label:'Spatial',
  facile:[
-  {t:"Flèche → (droite). Rotation 90° horaire. Nouvelle direction ?",opts:["← Gauche","↑ Haut","↓ Bas","→ Droite"],a:2,e:"90° horaire : DROITE→BAS→GAUCHE→HAUT."},
-  {t:"Cap Nord (000°). Virage droite 90°. Nouveau cap ?",opts:["090° Est","270° Ouest","180° Sud","360° Nord"],a:0,e:"000°+90°=090°=Est."},
-  {t:"Dans un miroir vertical, une main droite levée apparaît comme ?",opts:["Main droite levée","Main gauche levée","Main droite baissée","Main gauche baissée"],a:1,e:"Miroir vertical inverse gauche/droite."},
-  {t:"Cap 180° (Sud). Virage droite 90°. Nouveau cap ?",opts:["090°","270°","000°","045°"],a:1,e:"180°+90°=270°=Ouest."},
-  {t:"Une flèche ↑ subit 3 rotations de 90° horaire. Direction finale ?",opts:["↑","↓","←","→"],a:3,e:"↑→→→↓→←→↑ Non: 3×90°=270° horaire=90° antihoraire. ↑ tourne à droite: →↓←. Après 3 rotations: ← Gauche."},
-  {t:"Cube posé, face verte au-dessus. Bascule avant (vers vous) 90°. Face au-dessus ?",opts:["Face arrière","Face avant","Face verte","Face droite"],a:0,e:"La face arrière du cube monte vers le haut lors d'une bascule avant de 90°."},
+  {t:"Flèche → (droite). Rotation 90° horaire. Nouvelle direction ?",opts:["← Gauche","↑ Haut","↓ Bas","→ Droite"],a:2,e:"Horaire : DROITE→BAS."},
+  {t:"Cap Nord (000°). Virage droite 90°. Nouveau cap ?",opts:["090° Est","270° Ouest","180° Sud","360° Nord"],a:0,e:"000+90=090°=Est."},
+  {t:"Dans un miroir vertical, une main droite levée apparaît comme ?",opts:["Main droite levée","Main gauche levée","Main droite baissée","Main gauche baissée"],a:1,e:"Miroir inverse gauche/droite."},
+  {t:"Cap 180° (Sud). Virage droite 90°. Nouveau cap ?",opts:["090°","270°","000°","045°"],a:1,e:"180+90=270°=Ouest."},
+  {t:"Flèche ↑ subit 3 rotations horaires de 90°. Direction finale ?",opts:["↑","↓","←","→"],a:2,e:"Après 3 rotations de 90° horaire : ←."},
  ],
  difficile:[
   {t:"Cap 045°. Virage droite 225°. Nouveau cap ?",opts:["270°","090°","360°","315°"],a:0,e:"045+225=270°=Ouest."},
   {t:"Cap 350°. Virage gauche 100°. Nouveau cap ?",opts:["250°","090°","450°","110°"],a:0,e:"350-100=250°."},
-  {t:"Cube 3×3×3 entièrement peint. Découpé en 27 petits cubes. Combien ont exactement 2 faces peintes ?",opts:["8","12","16","24"],a:1,e:"Cubes d'arête (non sommet) : 12 arêtes × 1 cube = 12."},
-  {t:"Avion cap NORD, looping complet vers l'avant, puis virage droite 90°. Cap final ?",opts:["Nord","Est","Sud","Ouest"],a:1,e:"Looping 360° = même cap (Nord). Virage droite 90° = Est."},
-  {t:"Cap magnétique 350°, variation 5°W. Cap vrai ?",opts:["355°","345°","350°","005°"],a:1,e:"CV = CM - Var.Ouest. 350-5=345°T."},
-  {t:"RMI indique 270°, cap avion 090°. La balise NDB est ?",opts:["Droit devant","Dans le dos","À droite","À gauche"],a:3,e:"RMI 270° sur cap 090° : la balise est à 180° de différence relative = dans le dos. Non: RMI=gisement magnétique absolu. Si cap=090 et RMI=270: gisement 270-090=180° relatif = dans le dos. Réponse B."},
+  {t:"Cube 3×3×3 entièrement peint. Combien de petits cubes ont exactement 2 faces peintes ?",opts:["8","12","16","24"],a:1,e:"12 arêtes × 1 cube = 12."},
+  {t:"Avion cap NORD, looping complet, puis virage droite 90°. Cap final ?",opts:["Nord","Est","Sud","Ouest"],a:1,e:"Looping 360° = même cap. Virage droite 90° = Est."},
+  {t:"Cap magnétique 350°, variation 5°W. Cap vrai ?",opts:["355°","345°","350°","005°"],a:1,e:"CV = CM - Var.Ouest = 345°T."},
  ]
 },
-vocabulaire:{label:'Vocabulaire',icon:'Ω',color:'#a855f7',
+vocabulaire:{label:'Vocabulaire',
  facile:[
-  {t:"Synonyme de COURAGEUX ?",opts:["Imprudent","Intrépide","Téméraire","Audacieux"],a:1,e:"INTRÉPIDE = sans peur, courageux."},
+  {t:"Synonyme de COURAGEUX ?",opts:["Imprudent","Intrépide","Téméraire","Audacieux"],a:1,e:"INTRÉPIDE = sans peur."},
   {t:"Antonyme de OPAQUE ?",opts:["Sombre","Dense","Transparent","Terne"],a:2,e:"OPAQUE ↔ TRANSPARENT."},
-  {t:"LACUNE signifie ?",opts:["Abondance","Manque, déficience","Surprise","Précision"],a:1,e:"Lacune = vide, manque (lat. lacuna)."},
-  {t:"Terme générique : CHASSEUR – TRANSPORT – HÉLICOPTÈRE – BOMBARDIER",opts:["Militaire","Aéronef","Avion","Turbine"],a:1,e:"AÉRONEF inclut avions ET hélicoptères."},
-  {t:"ALERTE est à DANGER ce que SYMPTÔME est à ?",opts:["Médecin","Maladie","Traitement","Fièvre"],a:1,e:"L'alerte signale un danger ; le symptôme signale une maladie."},
-  {t:"Intrus — hors champ aéronautique :\nLACET – ROULIS – TANGAGE – CONFLUENCE",opts:["LACET","ROULIS","CONFLUENCE","TANGAGE"],a:2,e:"LACET/ROULIS/TANGAGE = 3 axes de rotation. CONFLUENCE appartient à l'hydrologie."},
+  {t:"LACUNE signifie ?",opts:["Abondance","Manque, déficience","Surprise","Précision"],a:1,e:"Lacune = vide, manque."},
+  {t:"Terme générique : CHASSEUR – TRANSPORT – HÉLICOPTÈRE – BOMBARDIER",opts:["Militaire","Aéronef","Avion","Turbine"],a:1,e:"AÉRONEF englobe avions et hélicoptères."},
+  {t:"ALERTE est à DANGER ce que SYMPTÔME est à ?",opts:["Médecin","Maladie","Traitement","Fièvre"],a:1,e:"Le symptôme signale une maladie."},
  ],
  difficile:[
-  {t:"CIRCUMNAVIGATION signifie ?",opts:["Navigation côtière","Navigation sous-marine","Tour du monde","Navigation de nuit"],a:2,e:"Circum (autour) + navigatio = tour complet du globe."},
-  {t:"INEXPUGNABLE signifie ?",opts:["Inexplicable","Imprenable","Invisible","Incorruptible"],a:1,e:"Expugnare (prendre d'assaut) → inexpugnable = qu'on ne peut prendre."},
-  {t:"IMPAVIDE est synonyme de ?",opts:["Épuisé","Impassible face au danger","Imprévisible","Inexpérimenté"],a:1,e:"Pavidus (effrayé) → impavide = qui ne ressent pas la peur."},
-  {t:"PROLIXE s'oppose à ?",opts:["Bavard","Verbeux","Laconique","Éloquent"],a:2,e:"Prolixe = trop long ↔ laconique = bref, concis."},
-  {t:"En aéronautique, CEILING désigne ?",opts:["Plafond de cabine","Base des nuages","Altitude maximale certifiée","Toit de piste"],a:1,e:"Ceiling = hauteur de la base de la couche nuageuse la plus basse (≥5/8 du ciel)."},
-  {t:"PRÉPONDÉRANT signifie ?",opts:["Lourd","Prévisible","D'importance dominante","Prudent"],a:2,e:"Prépondérant = qui a plus de poids/importance que les autres."},
+  {t:"CIRCUMNAVIGATION signifie ?",opts:["Navigation côtière","Sous-marine","Tour du monde","Nocturne"],a:2,e:"Circum = autour du globe."},
+  {t:"INEXPUGNABLE signifie ?",opts:["Inexplicable","Imprenable","Invisible","Incorruptible"],a:1,e:"Expugnare = prendre d'assaut."},
+  {t:"IMPAVIDE est synonyme de ?",opts:["Épuisé","Impassible face au danger","Imprévisible","Inexpérimenté"],a:1,e:"Pavidus (effrayé) → sans peur."},
+  {t:"PROLIXE s'oppose à ?",opts:["Bavard","Verbeux","Laconique","Éloquent"],a:2,e:"Prolixe = trop long ↔ laconique = bref."},
+  {t:"En aéronautique, CEILING désigne ?",opts:["Plafond de cabine","Base des nuages","Altitude max","Toit de piste"],a:1,e:"Base de la couche nuageuse ≥5/8 du ciel."},
+  {t:"PRÉPONDÉRANT signifie ?",opts:["Lourd","Prévisible","D'importance dominante","Prudent"],a:2,e:"Plus de poids que les autres éléments."},
  ]
 },
-instrument:{label:'Instruments',icon:'✈',color:'#06b6d4',
+instrument:{label:'Instruments',
  facile:[
-  {t:"Altimètre calé QNH indique 1200 ft. L'avion est à ?",opts:["1200 ft AMSL","1200 ft AGL","1200 ft ASFC","FL120"],a:0,e:"QNH calée = altitude AMSL (au-dessus du niveau de la mer)."},
+  {t:"Altimètre calé QNH indique 1200 ft. L'avion est à ?",opts:["1200 ft AMSL","1200 ft AGL","1200 ft ASFC","FL120"],a:0,e:"QNH calée = altitude AMSL."},
   {t:"Horizon artificiel : ailes inclinées à droite 30°. L'avion est en ?",opts:["Virage gauche 30°","Virage droit 30°","Cabré 30°","Piqué 30°"],a:1,e:"Inclinaison droite = virage droit."},
-  {t:"VSI indique +500 ft/min. L'avion ?",opts:["Descend","Monte","Vol horizontal","Accélère"],a:1,e:"VSI + = montée, - = descente."},
+  {t:"VSI indique +500 ft/min. L'avion ?",opts:["Descend","Monte","Vol horizontal","Accélère"],a:1,e:"VSI + = montée."},
   {t:"Boussole indique 090°. Cap de l'avion ?",opts:["Nord","Sud","Est","Ouest"],a:2,e:"090° = plein Est."},
-  {t:"L'anémomètre indique ?",opts:["Vitesse verticale","Vitesse air IAS","Vitesse sol","Mach"],a:1,e:"Anémomètre = IAS (Indicated Air Speed)."},
-  {t:"ILS : glide slope 2 points au-dessus, localizer centré. Le pilote doit ?",opts:["Cabrer","Piquer","Virer à droite","Maintenir"],a:1,e:"2 points AU-DESSUS = avion trop haut → piquer pour rejoindre l'axe."},
+  {t:"ILS : glide slope 2 points au-dessus, LOC centré. Le pilote doit ?",opts:["Cabrer","Piquer","Virer à droite","Maintenir"],a:1,e:"Trop haut → piquer pour rejoindre l'axe."},
  ],
  difficile:[
-  {t:"Altimètre calé QFE, aérodrome à 300 ft AMSL. Avion monte à 1500 ft AMSL. Lecture ?",opts:["1500 ft","1800 ft","1200 ft","300 ft"],a:2,e:"QFE = hauteur AGL. 1500-300=1200 ft."},
-  {t:"ADI : piqué 10°, roulis droit 45°. L'avion effectue un virage ?",opts:["Gauche en montée","Droit en descente","Droit en montée","Gauche en descente"],a:1,e:"Roulis droit=virage droit. Piqué=descente."},
-  {t:"Jauges : N1=96%, ITT=850°C (lim 870°C), huile 80°C. Que fait le pilote ?",opts:["Rien","Réduire N1","Surveiller l'ITT / réduire légèrement","Augmenter N2"],a:2,e:"ITT à 20°C de la limite = surveiller et réduire légèrement la poussée."},
-  {t:"Cap vrai 345°, variation 5°W. Cap magnétique ?",opts:["340°","350°","345°","355°"],a:1,e:"CM = CV + Var.Ouest. 345+5=350°M. (VARIATION OUEST, MAGNÉTIQUE BEST)"},
-  {t:"QNH 1013 hPa. FL100 = ?",opts:["10000 ft AMSL","10000 ft AGL","Environ 10000 ft AMSL si QNH=1013","Dépend du vent"],a:2,e:"FL = niveau pression, base QNE (1013.25 hPa). Si QNH≈1013, FL100≈10000 ft AMSL."},
+  {t:"Altimètre calé QFE, aérodrome à 300 ft AMSL. Avion à 1500 ft AMSL. Lecture ?",opts:["1500 ft","1800 ft","1200 ft","300 ft"],a:2,e:"QFE = hauteur AGL. 1500-300=1200 ft."},
+  {t:"ADI : piqué 10°, roulis droit 45°. Virage ?",opts:["Gauche en montée","Droit en descente","Droit en montée","Gauche en descente"],a:1,e:"Roulis droit=virage droit. Piqué=descente."},
+  {t:"N1=96%, ITT=850°C (lim 870°C). Que fait le pilote ?",opts:["Rien","Réduire N1","Surveiller ITT / réduire","Augmenter N2"],a:2,e:"ITT à 20°C de la limite → réduire légèrement."},
+  {t:"Cap vrai 345°, variation 5°W. Cap magnétique ?",opts:["340°","350°","345°","355°"],a:1,e:"CM = CV + Var.Ouest = 345+5=350°M."},
+  {t:"QNH 1013 hPa. FL100 correspond à ?",opts:["10000 ft AMSL","10000 ft AGL","≈10000 ft AMSL si QNH≈1013","Dépend du vent"],a:2,e:"FL = niveau pression base QNE (1013.25 hPa)."},
  ]
 }
 };
 
-// ─── AI PROMPT ────────────────────────────────────────────────────────
-function buildPrompt(cat, diff, prev=[]) {
-  const avoid = prev.length ? `\nÉvite ces sujets : ${prev.map(q=>`"${q}"`).join(', ')}.` : '';
-  const lvl = diff==='facile' ? 'sous-officier (SELPIL)' : 'pilote de chasse classe 1';
-  const specs = {
-    logique:`Suite numérique ou alphanumérique, analogie logique, syllogisme ou déduction formelle. Niveau ${lvl}.`,
-    calcul:`Calcul en contexte vol (distance/temps/vitesse, %, conversion unités aéro ft/NM/kt). Niveau ${lvl}${diff==='difficile'?' — contexte vol obligatoire':''}`,
-    memoire:`Séquence à mémoriser puis question, détection d'intrus, comptage dans un texte. Niveau ${lvl}.`,
-    spatial:`Rotation de cap, rotation mentale, développement de cube. ${diff==='difficile'?'Scenarios vol enchaînés.':''} Niveau ${lvl}.`,
-    vocabulaire:`Synonyme, antonyme, définition, analogie verbale. ${diff==='difficile'?'Vocabulaire aéronautique ou militaire rare.':''} Niveau ${lvl}.`,
-    instrument:`Lecture altimètre/ADI/VSI/ILS/RMI. ${diff==='difficile'?'Combiner plusieurs instruments ou erreurs partielles.':''} Niveau ${lvl}.`
-  };
-  return `Tu es expert des tests psychotechniques Armée de l'Air française.\n${specs[cat]}${avoid}\n\nGénère 1 QCM à 4 options (A,B,C,D), une seule réponse correcte.\nRéponds UNIQUEMENT en JSON valide, sans texte ni markdown :\n{"question":"texte","visuel":"encadré optionnel ou vide","options":["A","B","C","D"],"reponse":0,"explication":"explication pédagogique"}`;
-}
-
 // ─── STATE ────────────────────────────────────────────────────────────
-let diff = 'facile';
-let mode = 'static';   // 'static' | 'ai'
-let cat  = 'logique';
-let questions = [];
-let qIdx = 0;
-let answered = false;
-let timerInt = null;
-let timeLeft  = 40;
-let totalSecs = 40;
-let startT = 0;
-let totalElapsed = 0;
-let session = {ok:0, tot:0, streak:0, best:0};
-let catStats = {};
-let history = [];
-let prevQ = [];       // AI: avoid repeat
-let quizRes = [];
-let lastCat = 'logique';
-let aiLoading = false;
+let diff='facile', mode='static', cat='logique';
+let questions=[], qIdx=0, answered=false;
+let timerInt=null, timeLeft=40, totalSecs=40, startT=0, totalElapsed=0;
+let session={ok:0,tot:0,streak:0,best:0};
+let catStats={}, history=[], prevQ=[], quizRes=[], lastCat='logique';
+let aiLoading=false;
 
 // ─── DIFF ─────────────────────────────────────────────────────────────
-function setDiff(d) {
-  diff = d;
-  document.getElementById('btn-soff').className  = 'diff-btn' + (d==='facile'    ? ' on-easy' : '');
-  document.getElementById('btn-pilot').className = 'diff-btn' + (d==='difficile' ? ' on-hard' : '');
-  document.getElementById('diff-lbl').textContent = d==='facile' ? 'SOUS-OFFICIER' : 'PILOTE CLASSE 1';
-  totalSecs = d==='facile' ? 40 : 25;
+function setDiff(d){
+  diff=d;
+  document.getElementById('btn-soff').className ='diff-pill'+(d==='facile'?' soff':' off');
+  document.getElementById('btn-pilot').className='diff-pill'+(d==='difficile'?' pilot':' off');
+  document.getElementById('diff-badge').textContent='NIVEAU : '+(d==='facile'?'SOUS-OFFICIER':'PILOTE CLASSE 1')+' ›';
+  totalSecs=d==='facile'?40:25;
+  renderGrid();
 }
 
 // ─── MODE ─────────────────────────────────────────────────────────────
-function setMode(m) {
-  mode = m;
-  document.getElementById('tab-static').className = 'tab' + (m==='static' ? ' active' : '');
-  document.getElementById('tab-ai').className     = 'tab' + (m==='ai'     ? ' active' : '');
-  document.getElementById('ai-config').style.display = m==='ai' ? 'block' : 'none';
-  renderCatGrid();
+function setMode(m){
+  mode=m;
+  document.getElementById('tab-static').className='mode-tab'+(m==='static'?' active':'');
+  document.getElementById('tab-ai').className    ='mode-tab'+(m==='ai'    ?' active':'');
+  document.getElementById('ai-config').style.display=m==='ai'?'block':'none';
+  renderGrid();
 }
 
-// ─── API KEY ──────────────────────────────────────────────────────────
-function saveApiKey(v) {
-  try { localStorage.setItem('psytech_key', v); } catch(e){}
-  updateAiStatus();
-}
-function getApiKey() {
-  try { return localStorage.getItem('psytech_key') || ''; } catch(e){ return ''; }
-}
-function updateAiStatus() {
-  const k = getApiKey();
-  const dot  = document.getElementById('ai-dot');
-  const text = document.getElementById('ai-status-text');
-  if (!dot) return;
-  if (k.startsWith('sk-ant-') || k.startsWith('sk-')) {
-    dot.style.background = '#22c55e';
-    text.textContent = 'Clé API valide — génération en temps réel activée';
-  } else {
-    dot.style.background = '#f59e0b';
-    text.textContent = 'Clé non configurée — questions pré-définies (mode hors ligne)';
-  }
+// ─── KEY ──────────────────────────────────────────────────────────────
+function saveKey(v){try{localStorage.setItem('psk',v);}catch(e){} updateAiLed();}
+function getKey(){try{return localStorage.getItem('psk')||'';}catch(e){return '';}}
+function updateAiLed(){
+  const k=getKey(),led=document.getElementById('ai-led'),st=document.getElementById('ai-st');
+  if(!led)return;
+  const ok=k.startsWith('sk-ant-')||k.startsWith('sk-');
+  led.className='ai-led'+(ok?' ok':' warn');
+  st.textContent=ok?'Clé valide — génération en temps réel activée':'Clé non configurée';
 }
 
 // ─── HOME ─────────────────────────────────────────────────────────────
-function renderCatGrid() {
-  const g = document.getElementById('cat-grid');
-  g.innerHTML = Object.entries(BANKS).map(([k,b]) => {
-    const cs = catStats[k];
-    const p  = cs ? Math.round(cs.ok/cs.tot*100) : null;
-    const scoreHtml = p!==null
-      ? `<span class="cat-score" style="color:${p>=75?'#22c55e':p>=50?'#f59e0b':'#ef4444'}">${cs.ok}/${cs.tot} · ${p}%</span>`
-      : '';
-    const pillText = mode==='ai' ? '∞ IA' : b[diff].length+' Q';
-    const barHtml  = cs ? `<div class="mini-bar"><div class="mini-bar-fill" style="width:${p}%;background:${b.color}"></div></div>` : '';
-    return `<div class="cat-card" onclick="startCat('${k}')" style="">
-      <div class="cat-card-top" style="background:${b.color}"></div>
-      <div class="cat-icon">${b.icon}</div>
+function renderGrid(){
+  const g=document.getElementById('cat-grid');
+  const qCounts={logique:80,calcul:70,memoire:40,spatial:50,vocabulaire:60,instrument:50};
+  g.innerHTML=Object.entries(BANKS).map(([k,b])=>{
+    const cs=catStats[k], p=cs?Math.round(cs.ok/cs.tot*100):null;
+    const col=CAT_COLORS[k], bg=CAT_BG[k], ico=CAT_ICONS[k];
+    const cnt=mode==='ai'?'∞':qCounts[k];
+    const scoreHtml=p!=null?`<div class="cat-score-lbl" style="color:${p>=75?'#16a34a':p>=50?'#d97706':'#dc2626'}">${cs.ok}/${cs.tot} · ${p}%</div><div class="cat-score-bar"><div class="cat-score-fill" style="width:${p}%;background:${col}"></div></div>`:'';
+    return `<div class="cat-card" onclick="startCat('${k}')">
+      <div class="cat-icon-wrap" style="background:${bg};color:${col}">${ico}</div>
       <div class="cat-name">${b.label}</div>
-      <div class="cat-desc">${getCatDesc(k)}</div>
+      <div class="cat-desc">${CAT_DESCS[k]}</div>
+      ${scoreHtml}
       <div class="cat-footer">
-        <span class="pill" style="color:${b.color}">${pillText}</span>
-        ${scoreHtml}
+        <div class="cat-q-count">${cnt}<span>QUESTIONS</span></div>
+        <div class="cat-arrow">›</div>
       </div>
-      ${barHtml}
     </div>`;
   }).join('');
 }
 
-function getCatDesc(k) {
-  return {
-    logique:'Séries, analogies, syllogismes',
-    calcul:'Vitesse, %, conversions aéro',
-    memoire:'Séquences, attention, intrus',
-    spatial:'Caps, rotations, cubes 3D',
-    vocabulaire:'Synonymes, antonymes, jargon',
-    instrument:'Altimètre, ADI, ILS, RMI'
-  }[k];
+function updateStatsRow(){
+  const r=document.getElementById('stats-row');
+  if(session.tot>0){
+    r.classList.add('show');
+    const pct=Math.round(session.ok/session.tot*100);
+    document.getElementById('st-score').textContent=session.ok+'/'+session.tot;
+    document.getElementById('st-pct').textContent=pct+'%';
+    document.getElementById('st-pct').style.color=pct>=75?'#16a34a':pct>=50?'#d97706':'#dc2626';
+    document.getElementById('st-streak').textContent=session.best||session.streak;
+    const sb=document.getElementById('score-box');
+    sb.textContent=session.ok+'/'+session.tot; sb.classList.add('show');
+  } else { r.classList.remove('show'); document.getElementById('score-box').classList.remove('show'); }
 }
 
-function updateHist() {
-  const sec = document.getElementById('hist-section');
-  const lst = document.getElementById('hist-list');
-  const cnt = document.getElementById('hist-count');
-  if (!history.length) { sec.style.display='none'; return; }
-  sec.style.display='block';
-  const last5 = history.slice(-5).reverse();
-  cnt.textContent = `${history.length} réponses`;
-  lst.innerHTML = last5.map(h => `
+function updateHist(){
+  const s=document.getElementById('hist-sec');
+  if(!history.length){s.style.display='none';return;}
+  s.style.display='block';
+  document.getElementById('hist-list').innerHTML=history.slice(-5).reverse().map(h=>`
     <div class="hist-item">
-      <div class="hist-icon">${h.correct?'✅':'❌'}</div>
-      <div class="hist-text">
-        <strong>${h.q.question ? h.q.question.substring(0,80) : h.q.t.substring(0,80)}…</strong>
-        ${!h.correct ? `<div class="hist-wrong">✗ ${h.chosen_text} · ✓ ${h.correct_text}</div>` : ''}
+      <div class="hist-ico">${h.ok?'✅':'❌'}</div>
+      <div class="hist-body">
+        <div class="hist-q">${(h.qt||'').substring(0,80)}…</div>
+        ${!h.ok?`<div class="hist-ans ko">✗ ${h.ct} · ✓ ${h.at}</div>`:''}
       </div>
     </div>`).join('');
 }
 
-function updateHUD() {
-  const h = document.getElementById('hud');
-  const s = document.getElementById('hud-score');
-  if (session.tot>0) {
-    h.style.display='flex';
-    const pct = Math.round(session.ok/session.tot*100);
-    const col = pct>=75?'#22c55e':pct>=50?'#f59e0b':'#ef4444';
-    s.textContent = `${session.ok}/${session.tot}`;
-    s.style.color = col;
-  } else { h.style.display='none'; }
+function resetSession(){
+  session={ok:0,tot:0,streak:0,best:0}; catStats={}; history={}; prevQ=[];
+  updateStatsRow(); updateHist(); renderGrid();
+  document.getElementById('score-box').classList.remove('show');
 }
 
-function resetSession() {
-  session={ok:0,tot:0,streak:0,best:0};
-  catStats={};history=[];prevQ=[];
-  updateHUD();updateHist();renderCatGrid();
+function goHome(){
+  clearInterval(timerInt); show('home');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('nav-home').classList.add('active');
+  document.querySelectorAll('.bnav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('bnav-h').classList.add('active');
+  renderGrid(); updateHist(); updateStatsRow();
 }
 
-function goHome() {
-  clearInterval(timerInt);
-  show('home'); renderCatGrid(); updateHist(); updateHUD();
-}
-
-function startRandom() {
-  const cats = Object.keys(BANKS);
+function startRandom(){
+  const cats=Object.keys(BANKS);
   startCat(cats[Math.floor(Math.random()*cats.length)]);
 }
+function retryLast(){startCat(lastCat);}
 
-function retryLast() { startCat(lastCat); }
-
-// ─── QUIZ START ───────────────────────────────────────────────────────
-function startCat(k) {
-  lastCat = k; cat = k;
-  document.getElementById('q-cat-lbl').textContent  = k.toUpperCase();
-  document.getElementById('q-title').textContent    = BANKS[k].label;
-  document.getElementById('q-cat-lbl').style.color  = BANKS[k].color;
-  quizRes=[]; qIdx=0; totalElapsed=0;
+// ─── START CAT ────────────────────────────────────────────────────────
+function startCat(k){
+  lastCat=k; cat=k;
+  const col=CAT_COLORS[k];
+  document.getElementById('q-cat-lbl').textContent=k.toUpperCase();
+  document.getElementById('q-cat-lbl').style.color=col;
+  document.getElementById('q-mod-title').textContent=BANKS[k].label;
+  quizRes=[];qIdx=0;totalElapsed=0;
   show('quiz');
-
-  if (mode==='ai') {
-    questions=[];
-    fetchAiQ();
-  } else {
-    const pool = [...BANKS[k][diff]].sort(()=>Math.random()-.5);
-    questions = pool;
-    renderQ();
-  }
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.bnav-item').forEach(n=>n.classList.remove('active'));
+  if(mode==='ai'){questions=[];fetchAiQ();}
+  else{questions=[...BANKS[k][diff]].sort(()=>Math.random()-.5);renderQ();}
 }
 
-// ─── AI FETCH ─────────────────────────────────────────────────────────
-async function fetchAiQ() {
+// ─── AI ───────────────────────────────────────────────────────────────
+function buildPrompt(k,d,prev){
+  const avoid=prev.length?`\nÉvite ces sujets : ${prev.map(q=>`"${q}"`).join(', ')}.`:'';
+  const lvl=d==='facile'?'sous-officier':'pilote de chasse classe 1';
+  const specs={
+    logique:`Suite numérique/alphanumérique, analogie logique, syllogisme. Niveau ${lvl}.`,
+    calcul:`Calcul contexte vol (distance/temps/vitesse, %, conversion ft/NM/kt). Niveau ${lvl}.`,
+    memoire:`Séquence à mémoriser puis question, intrus, comptage. Niveau ${lvl}.`,
+    spatial:`Rotation de cap, rotation mentale, développement de cube. Niveau ${lvl}.`,
+    vocabulaire:`Synonyme, antonyme, définition, analogie verbale. Niveau ${lvl}.`,
+    instrument:`Lecture altimètre/ADI/VSI/ILS/RMI. Niveau ${lvl}.`
+  };
+  return `Tu es expert des tests psychotechniques Armée de l'Air française.\n${specs[k]}${avoid}\n\nGénère 1 QCM à 4 options, une seule réponse correcte.\nRéponds UNIQUEMENT en JSON valide sans texte ni markdown :\n{"question":"texte","visuel":"encadré ou vide","options":["A","B","C","D"],"reponse":0,"explication":"explication"}`;
+}
+
+async function fetchAiQ(){
   aiLoading=true;
   document.getElementById('skeleton').style.display='block';
   document.getElementById('q-card').style.display='none';
   document.getElementById('btn-next').style.display='none';
   clearInterval(timerInt);
-
-  const key = getApiKey();
-  // If no key, fall back to static
-  if (!key.startsWith('sk')) {
-    aiLoading=false;
-    document.getElementById('skeleton').style.display='none';
-    document.getElementById('q-card').style.display='block';
-    // fall back: pick random from static bank
-    const pool = [...BANKS[cat][diff]].sort(()=>Math.random()-.5);
-    questions = pool.map(q=>({
-      question: q.t, visuel: q.v||'', options: q.opts, reponse: q.a, explication: q.e,
-      _static: true
-    }));
-    renderQ();
-    return;
-  }
-  try {
-    const r = await fetch('https://api.anthropic.com/v1/messages',{
+  const key=getKey();
+  if(!(key.startsWith('sk-ant-')||key.startsWith('sk-'))){aiLoading=false;fallback();return;}
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:800,
-        messages:[{role:'user',content:buildPrompt(cat,diff,prevQ.slice(-6))}]
-      })
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,
+        messages:[{role:'user',content:buildPrompt(cat,diff,prevQ.slice(-6))}]})
     });
-    const d = await r.json();
-    const raw = d.content?.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
-    const q = JSON.parse(raw);
+    const d=await r.json();
+    const raw=d.content?.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    const q=JSON.parse(raw);
     prevQ.push((q.question||'').substring(0,60));
-    questions=[q];
     aiLoading=false;
     document.getElementById('skeleton').style.display='none';
     document.getElementById('q-card').style.display='block';
-    renderQFromData(q, true);
-  } catch(err) {
-    aiLoading=false;
-    document.getElementById('skeleton').style.display='none';
-    document.getElementById('q-card').style.display='block';
-    // fallback static on error
-    const pool = [...BANKS[cat][diff]].sort(()=>Math.random()-.5);
-    const q0 = pool[Math.floor(Math.random()*pool.length)];
-    renderQFromData({question:q0.t,visuel:q0.v||'',options:q0.opts,reponse:q0.a,explication:q0.e,_static:true}, false);
-  }
+    renderQData(q,true);
+  }catch(e){aiLoading=false;fallback();}
 }
 
-// ─── RENDER QUESTION ──────────────────────────────────────────────────
-function renderQ() {
-  if (qIdx>=questions.length) { showResults(); return; }
-  const raw = questions[qIdx];
-  // normalize static vs ai
-  const q = raw.question ? raw : {
-    question:raw.t, visuel:raw.v||'', options:raw.opts, reponse:raw.a, explication:raw.e
-  };
-  renderQFromData(q, false);
+function fallback(){
+  const pool=[...BANKS[cat][diff]].sort(()=>Math.random()-.5);
+  const q=pool[Math.floor(Math.random()*pool.length)];
+  document.getElementById('skeleton').style.display='none';
+  document.getElementById('q-card').style.display='block';
+  renderQData({question:q.t,visuel:q.v||'',options:q.opts,reponse:q.a,explication:q.e},false);
 }
 
-function renderQFromData(q, isAI) {
+// ─── RENDER Q ─────────────────────────────────────────────────────────
+function renderQ(){
+  if(qIdx>=questions.length){showResults();return;}
+  const raw=questions[qIdx];
+  renderQData(raw.question?raw:{question:raw.t,visuel:raw.v||'',options:raw.opts,reponse:raw.a,explication:raw.e},false);
+}
+
+function renderQData(q,isAI){
   answered=false;
-  const tot = mode==='ai' ? (qIdx+1) : questions.length;
+  const tot=mode==='ai'?(qIdx+1):questions.length;
+  const pct=Math.round(qIdx/Math.max(tot,1)*100);
+  document.getElementById('q-prog').style.width=pct+'%';
+  document.getElementById('q-prog-lbl').textContent='Q '+(qIdx+1)+(mode!=='ai'?' / '+questions.length:'');
+  document.getElementById('q-num').textContent=qIdx+1;
+  document.getElementById('q-tot').textContent=mode==='ai'?'∞':questions.length;
 
-  // Progress
-  const pct = tot>0 ? Math.round(qIdx/tot*100) : 0;
-  document.getElementById('q-prog-bar').style.width = pct+'%';
-  document.getElementById('q-prog-lbl').textContent = `Q ${qIdx+1}`;
-  document.getElementById('q-prog-pct').textContent = pct+'%';
-  document.getElementById('q-num').textContent = qIdx+1;
-  document.getElementById('q-tot').textContent = mode==='ai' ? '∞' : questions.length;
+  const dd=diff==='facile';
+  const db=document.getElementById('q-diff-badge');
+  db.textContent=dd?'SOUS-OFFICIER':'PILOTE';
+  db.className='q-badge '+(dd?'q-badge-diff-easy':'q-badge-diff-hard');
+  document.getElementById('q-cat-badge').textContent=cat.toUpperCase();
+  document.getElementById('q-ai-badge').style.display=isAI?'flex':'none';
 
-  // Badge
-  const dd = diff==='facile';
-  document.getElementById('q-diff-dot').className = 'diff-dot';
-  document.getElementById('q-diff-dot').style.background = dd ? '#22c55e' : '#ef4444';
-  document.getElementById('q-diff-lbl').textContent = dd ? 'SOUS-OFFICIER' : 'PILOTE';
-  document.getElementById('q-type-lbl').textContent = cat.toUpperCase();
-  const aiBadge = document.getElementById('ai-badge');
-  aiBadge.style.display = isAI ? 'inline-flex' : 'none';
+  document.getElementById('q-text').innerHTML=(q.question||'').replace(/\n/g,'<br>');
 
-  // Text
-  document.getElementById('q-text').innerHTML = (q.question||'').replace(/\n/g,'<br>');
+  const vis=document.getElementById('q-visual');
+  if(q.visuel&&q.visuel.trim()){vis.textContent=q.visuel;vis.classList.remove('hidden');}
+  else vis.classList.add('hidden');
 
-  // Visual
-  const vis = document.getElementById('q-visual');
-  if (q.visuel && q.visuel.trim()) {
-    vis.textContent = q.visuel;
-    vis.classList.remove('hidden');
-  } else { vis.classList.add('hidden'); }
-
-  // Options
-  const optsEl = document.getElementById('q-options');
-  optsEl.innerHTML = (q.options||[]).map((o,i) => `
-    <div class="option" id="opt-${i}" onclick="pick(${i},this)"
-      onmouseenter="if(!answered)this.classList.add('hover')"
-      onmouseleave="this.classList.remove('hover')">
+  document.getElementById('q-opts').innerHTML=(q.options||[]).map((o,i)=>`
+    <div class="opt" id="opt-${i}" onclick="pick(${i})"
+      onmouseenter="if(!answered)this.classList.add('sel')"
+      onmouseleave="if(!answered)this.classList.remove('sel')">
       <div class="opt-key">${String.fromCharCode(65+i)}</div>
-      <div class="opt-text">${o}</div>
+      <div class="opt-txt">${o}</div>
     </div>`).join('');
 
-  // Feedback reset
-  const fb = document.getElementById('q-feedback');
+  const fb=document.getElementById('q-fb');
   fb.style.display='none'; fb.className='feedback';
-
   document.getElementById('btn-next').style.display='none';
   document.getElementById('q-card').style.display='block';
+  document.getElementById('kb-hint').style.display='block';
+  updateStreakChip();
 
-  // Streak
-  updateStreakBadge();
-
-  // Timer
   clearInterval(timerInt);
-  totalSecs = diff==='facile' ? 40 : 25;
-  timeLeft = totalSecs;
-  startT = Date.now();
-  tickTimer();
-  timerInt = setInterval(tickTimer, 500);
-
-  // Store current q for results
-  if (!q._stored) {
-    // shallow store
-    if (mode==='ai') questions[qIdx] = {...q, _stored:true};
-  }
-}
-
-// ─── TIMER ────────────────────────────────────────────────────────────
-function tickTimer() {
-  timeLeft = Math.max(0, timeLeft - (timerInt ? 0.5 : 0));
-  if (timerInt) timeLeft -= 0;
-  const t = Math.max(0, timeLeft);
-  document.getElementById('timer-num').textContent = Math.ceil(t);
-  const r=22, circ=2*Math.PI*r;
-  const ring = document.getElementById('timer-ring');
-  ring.style.strokeDashoffset = circ*(1-t/totalSecs);
-  const col = t<=6?'#ef4444':t<=12?'#f59e0b':'#0ea5e9';
-  ring.style.stroke = col;
-  document.getElementById('timer-num').style.color = col;
-  if (t<=0 && !answered) {
-    clearInterval(timerInt);
-    answered=true;
-    session.tot++; session.streak=0;
-    updateHUD();
-    // Show timeout feedback
-    showFeedback(false, -1, questions[qIdx]?.question ? questions[qIdx] : {
-      question:questions[qIdx]?.t, options:questions[qIdx]?.opts, reponse:questions[qIdx]?.a, explication:questions[qIdx]?.e
-    });
-    document.getElementById('btn-next').style.display='inline-block';
-    quizRes.push({q:questions[qIdx],chosen:-1,correct:false,elapsed:totalSecs});
-  }
-}
-
-function startTick() {
-  clearInterval(timerInt);
-  timeLeft = totalSecs;
-  timerInt = setInterval(() => {
-    timeLeft -= 0.5;
-    tickTimerDisplay();
-    if (timeLeft<=0) {
+  totalSecs=diff==='facile'?40:25; timeLeft=totalSecs; startT=Date.now();
+  updateTimerDisp();
+  timerInt=setInterval(()=>{
+    timeLeft-=.5; updateTimerDisp();
+    if(timeLeft<=0){
       clearInterval(timerInt);
-      if (!answered) { answered=true; handleTimeout(); }
+      if(!answered){
+        answered=true; session.tot++; session.streak=0; updateStatsRow();
+        showFb('timeout',-1,q);
+        document.getElementById('btn-next').style.display='inline-block';
+        quizRes.push({q,chosen:-1,correct:false,elapsed:totalSecs});
+      }
     }
-  }, 500);
+  },500);
+  if(mode==='ai') questions[qIdx]={...q};
 }
 
-function tickTimerDisplay() {
-  const t = Math.max(0, timeLeft);
-  document.getElementById('timer-num').textContent = Math.ceil(t);
-  const r=22, circ=2*Math.PI*r;
-  const ring = document.getElementById('timer-ring');
-  ring.style.strokeDashoffset = circ*(1-t/totalSecs);
-  const col = t<=6?'#ef4444':t<=12?'#f59e0b':'#0ea5e9';
-  ring.style.stroke = col;
-  document.getElementById('timer-num').style.color = col;
+function updateTimerDisp(){
+  const t=Math.max(0,timeLeft);
+  const n=document.getElementById('timer-num');
+  const arc=document.getElementById('timer-arc');
+  n.textContent=Math.ceil(t);
+  const r=23,circ=2*Math.PI*r;
+  arc.style.strokeDashoffset=circ*(1-t/totalSecs);
+  const col=t<=6?'#dc2626':t<=12?'#d97706':'var(--navy)';
+  arc.style.stroke=col; n.style.color=col;
 }
 
-// ─── PICK ANSWER ──────────────────────────────────────────────────────
-function pick(i, el) {
-  if (answered) return;
-  clearInterval(timerInt);
-  answered=true;
-  const elapsed = (Date.now()-startT)/1000;
-  totalElapsed+=elapsed;
-
-  const rawQ = questions[qIdx];
-  const q = rawQ.question ? rawQ : {question:rawQ.t,options:rawQ.opts,reponse:rawQ.a,explication:rawQ.e,visuel:rawQ.v||''};
-  const ok = i===q.reponse;
-
-  session.tot++;
-  if (ok) { session.ok++; session.streak++; session.best=Math.max(session.best,session.streak); }
-  else     { session.streak=0; }
-
-  const cs = catStats[cat]||{ok:0,tot:0};
+function pick(i){
+  if(answered)return;
+  clearInterval(timerInt); answered=true;
+  const elapsed=(Date.now()-startT)/1000; totalElapsed+=elapsed;
+  const rawQ=questions[qIdx];
+  const q=rawQ.question?rawQ:{question:rawQ.t,options:rawQ.opts,reponse:rawQ.a,explication:rawQ.e,visuel:rawQ.v||''};
+  const ok=i===q.reponse;
+  session.tot++; if(ok){session.ok++;session.streak++;session.best=Math.max(session.best,session.streak);}else session.streak=0;
+  const cs=catStats[cat]||{ok:0,tot:0};
   catStats[cat]={ok:cs.ok+(ok?1:0),tot:cs.tot+1};
-
-  history.push({q,correct:ok,chosen:i,chosen_text:q.options[i],correct_text:q.options[q.reponse]});
+  history.push({qt:q.question,ok,ct:q.options[i],at:q.options[q.reponse]});
   quizRes.push({q,chosen:i,correct:ok,elapsed});
-  updateHUD(); updateStreakBadge();
+  updateStatsRow(); updateStreakChip();
 
-  // Style options
-  document.querySelectorAll('.option').forEach((el2,idx)=>{
-    el2.classList.add('disabled');
-    el2.classList.remove('hover');
-    if (idx===q.reponse) el2.classList.add('correct');
-    else if (idx===i && !ok) el2.classList.add('wrong');
+  document.querySelectorAll('.opt').forEach((el,idx)=>{
+    el.classList.add('disabled'); el.classList.remove('sel');
+    if(idx===q.reponse) el.classList.add('correct');
+    else if(idx===i&&!ok) el.classList.add('wrong');
   });
-
-  // Flash
-  const card = document.getElementById('q-card');
-  card.classList.add(ok?'flash-g':'flash-r');
-  setTimeout(()=>card.classList.remove('flash-g','flash-r'),400);
-
-  showFeedback(ok, i, q);
+  const card=document.getElementById('q-card');
+  card.classList.add(ok?'flash-ok':'flash-ko');
+  setTimeout(()=>card.classList.remove('flash-ok','flash-ko'),350);
+  showFb(ok?'ok':'ko',i,q);
   document.getElementById('btn-next').style.display='inline-block';
+  document.getElementById('kb-hint').style.display='none';
 }
 
-function showFeedback(ok, chosen, q) {
-  const fb = document.getElementById('q-feedback');
-  const title = document.getElementById('fb-title');
-  const body  = document.getElementById('fb-body');
+function showFb(type,chosen,q){
+  const fb=document.getElementById('q-fb');
+  const map={ok:'',ko:' wrong',timeout:' timeout'};
+  fb.className='feedback'+(map[type]||'');
   fb.style.display='block';
-  if (!ok) fb.classList.add('wrong');
-  title.textContent = ok ? '✓ BONNE RÉPONSE' : chosen<0 ? '⏱ TEMPS ÉCOULÉ' : '✗ RÉPONSE INCORRECTE';
-  const opts = q.options || q.opts || [];
-  const correctText = opts[q.reponse];
-  let html = '';
-  if (!ok && chosen>=0) html += `<span>Votre réponse : <strong style="color:#f87171">${opts[chosen]}</strong> — `;
-  if (!ok) html += `Correcte : <strong class="feedback-correct">${correctText}</strong></span><br>`;
-  html += `<span>${q.explication||''}</span>`;
-  body.innerHTML = html;
+  const titles={ok:'✓ Bonne réponse',ko:'✗ Réponse incorrecte',timeout:'⏱ Temps écoulé'};
+  document.getElementById('fb-title').textContent=titles[type];
+  const opts=q.options||q.opts||[];
+  let h='';
+  if(type!=='ok'&&chosen>=0) h+=`Réponse choisie : <strong style="color:#b91c1c">${opts[chosen]}</strong> — `;
+  if(type!=='ok') h+=`Correcte : <span class="fb-correct">${opts[q.reponse]}</span><br>`;
+  h+=q.explication||'';
+  document.getElementById('fb-body').innerHTML=h;
 }
 
-function updateStreakBadge() {
-  const w = document.getElementById('streak-wrap');
-  document.getElementById('streak-num').textContent = session.streak;
-  w.style.display = session.streak>1 ? 'inline-block' : 'none';
+function updateStreakChip(){
+  const c=document.getElementById('streak-chip');
+  document.getElementById('streak-n').textContent=session.streak;
+  c.style.display=session.streak>1?'inline-flex':'none';
 }
 
-// ─── NEXT ─────────────────────────────────────────────────────────────
-function nextQ() {
+function nextQ(){
   qIdx++;
-  if (mode==='ai') {
-    // AI mode: infinite — fetch next
-    document.getElementById('q-card').style.display='none';
-    fetchAiQ();
-  } else {
-    if (qIdx>=questions.length) showResults();
-    else renderQ();
-  }
+  if(mode==='ai'){document.getElementById('q-card').style.display='none';fetchAiQ();}
+  else{if(qIdx>=questions.length)showResults();else renderQ();}
 }
 
-// ─── RESULTS ──────────────────────────────────────────────────────────
-function showResults() {
-  clearInterval(timerInt);
-  show('results');
-  const ok  = quizRes.filter(r=>r.correct).length;
-  const tot = quizRes.length;
-  const pct = tot>0 ? Math.round(ok/tot*100) : 0;
-  const avg = tot>0 ? Math.round(totalElapsed/tot) : 0;
-
-  catStats[cat] = {ok, tot};
-
+function showResults(){
+  clearInterval(timerInt); show('results');
+  const ok=quizRes.filter(r=>r.correct).length,tot=quizRes.length;
+  const pct=tot>0?Math.round(ok/tot*100):0;
+  const avg=tot>0?Math.round(totalElapsed/tot):0;
+  catStats[cat]={ok,tot};
   let grade,verdict;
-  if (pct>=90){grade='A';verdict='Excellent — Aptitude remarquable. Cohérent avec la sélection pilote de chasse.';}
+  if(pct>=90){grade='A';verdict='Excellent — Aptitude remarquable. Cohérent avec la sélection pilote de chasse.';}
   else if(pct>=75){grade='B';verdict='Bien — Bon niveau général. Quelques points à consolider pour le niveau pilote.';}
-  else if(pct>=60){grade='C';verdict='Passable — Niveau sous-officier atteint. Effort requis pour le niveau pilote.';}
+  else if(pct>=60){grade='C';verdict='Passable — Niveau sous-officier atteint. Effort requis pour viser le niveau pilote.';}
   else if(pct>=40){grade='D';verdict='Insuffisant — Entraînement régulier et ciblé nécessaire.';}
   else{grade='F';verdict='Échec — Reprenez les bases de cette catégorie.';}
-
   document.getElementById('res-grade').textContent=grade;
   document.getElementById('res-grade').className='res-grade '+grade;
-  document.getElementById('res-score').textContent=`${ok} / ${tot} — ${pct}%`;
+  document.getElementById('res-score').textContent=ok+' / '+tot+' — '+pct+'%';
   document.getElementById('res-verdict').textContent=verdict;
   document.getElementById('rs-ok').textContent=ok;
   document.getElementById('rs-ko').textContent=tot-ok;
-  document.getElementById('rs-time').textContent=avg+'s';
+  document.getElementById('rs-t').textContent=avg+'s';
   document.getElementById('rs-cat').textContent=cat.toUpperCase();
-
-  document.getElementById('review-list').innerHTML = quizRes.map((r,i)=>{
-    const q = r.q;
-    const opts = q.options||q.opts||[];
-    const qtxt = (q.question||q.t||'').split('\n')[0].substring(0,90);
-    const chosenTxt = r.chosen>=0 ? opts[r.chosen] : 'Temps écoulé';
-    const correctTxt = opts[q.reponse||q.a];
+  document.getElementById('review-list').innerHTML=quizRes.map((r,i)=>{
+    const q=r.q,opts=q.options||q.opts||[];
+    const ct=r.chosen>=0?opts[r.chosen]:'Temps écoulé',at=opts[q.reponse||q.a];
     return `<li class="review-item">
-      <div class="review-icon">${r.correct?'✅':'❌'}</div>
-      <div class="review-body">
-        <div class="review-q">Q${i+1} : ${qtxt}…</div>
-        <div class="review-ans ${r.correct?'ok':'ko'}">
-          Votre réponse : ${chosenTxt}${!r.correct?` | Correcte : ${correctTxt}`:''}
-        </div>
-        <div class="review-exp">${q.explication||q.e||''}</div>
+      <div class="rev-ico">${r.correct?'✅':'❌'}</div>
+      <div class="rev-body">
+        <div class="rev-q">Q${i+1} : ${(q.question||q.t||'').split('\n')[0].substring(0,85)}…</div>
+        <div class="rev-ans ${r.correct?'ok':'ko'}">${ct}${!r.correct?' → '+at:''}</div>
+        <div class="rev-exp">${q.explication||q.e||''}</div>
       </div>
     </li>`;
   }).join('');
 }
 
-// ─── UTILS ────────────────────────────────────────────────────────────
-function show(s) {
+function show(s){
   ['home','quiz','results'].forEach(id=>{
     document.getElementById('screen-'+id).className='screen'+(id===s?' active':'');
   });
 }
 
+// ─── THEME ────────────────────────────────────────────────────────────
+let dark=false;
+function toggleTheme(){
+  dark=!dark;
+  document.documentElement.style.setProperty('--bg',dark?'#1a1f2e':'#f4f6f9');
+  document.documentElement.style.setProperty('--white',dark?'#252d3d':'#ffffff');
+  document.documentElement.style.setProperty('--border',dark?'#2d3a52':'#e2e6ed');
+  document.documentElement.style.setProperty('--text',dark?'#e8edf5':'#1a2235');
+  document.documentElement.style.setProperty('--muted',dark?'#8a9db8':'#6b7a99');
+  document.documentElement.style.setProperty('--muted2',dark?'#b0bdd1':'#9aa3b8');
+}
+
 // ─── KEYBOARD ─────────────────────────────────────────────────────────
 document.addEventListener('keydown',e=>{
-  if (document.getElementById('screen-quiz').classList.contains('active') && !aiLoading) {
-    const map={'a':0,'z':1,'e':2,'r':3,'1':0,'2':1,'3':2,'4':3};
-    if (map[e.key]!==undefined && !answered) {
-      const el=document.getElementById('opt-'+map[e.key]);
-      if(el)pick(map[e.key],el);
-    }
-    if((e.key==='Enter'||e.key===' ')&&answered&&!aiLoading)nextQ();
-    if(e.key==='Escape')goHome();
+  if(document.getElementById('screen-quiz').classList.contains('active')&&!aiLoading){
+    const map={a:0,z:1,e:2,r:3,1:0,2:1,3:2,4:3};
+    const k=e.key.toLowerCase();
+    if(map[k]!==undefined&&!answered) pick(map[k]);
+    if((e.key==='Enter'||e.key===' ')&&answered&&!aiLoading) nextQ();
+    if(e.key==='Escape') goHome();
   }
 });
 
-// ─── PWA + OFFLINE ────────────────────────────────────────────────────
+// ─── PWA ──────────────────────────────────────────────────────────────
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{
   e.preventDefault(); deferredPrompt=e;
-  const banner=document.getElementById('install-banner');
-  banner.style.display='flex';
-  document.getElementById('btn-install').onclick=async()=>{
-    banner.style.display='none';
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt=null;
-  };
-  document.getElementById('btn-dismiss').onclick=()=>{ banner.style.display='none'; };
+  const b=document.getElementById('install-banner');
+  b.classList.add('show');
+  document.getElementById('btn-install').onclick=async()=>{b.classList.remove('show');deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;};
+  document.getElementById('btn-dismiss').onclick=()=>b.classList.remove('show');
 });
-
-window.addEventListener('online',  ()=>document.getElementById('offline-strip').classList.remove('show'));
-window.addEventListener('offline', ()=>document.getElementById('offline-strip').classList.add('show'));
-if (!navigator.onLine) document.getElementById('offline-strip').classList.add('show');
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('./sw.js').catch(()=>{});
-  });
-}
+window.addEventListener('online', ()=>document.getElementById('offline-strip').classList.remove('show'));
+window.addEventListener('offline',()=>document.getElementById('offline-strip').classList.add('show'));
+if(!navigator.onLine) document.getElementById('offline-strip').classList.add('show');
+if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 
 // ─── INIT ─────────────────────────────────────────────────────────────
-// Load api key input
 window.addEventListener('DOMContentLoaded',()=>{
-  const inp = document.getElementById('ai-key-input');
-  if(inp) inp.value = getApiKey();
-  updateAiStatus();
-  renderCatGrid();
+  const ki=document.getElementById('ai-key');
+  if(ki) ki.value=getKey();
+  updateAiLed(); renderGrid();
+  const hash=location.hash.replace('#','');
+  if(BANKS[hash]) startCat(hash);
 });
-
-// Handle #hash shortcuts
-const hash = location.hash.replace('#','');
-if (BANKS[hash]) startCat(hash);
 </script>
 </body>
 </html>
